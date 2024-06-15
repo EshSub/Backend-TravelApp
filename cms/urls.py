@@ -1,6 +1,9 @@
-from django.urls import path
-from .views import UserRegister
+from django.urls import path, include
+from cms.viewsets.UserViewset import UserViewSet
+from rest_framework import routers
 
-urlpatterns = [
-    path('register', UserRegister.as_view())
-]
+router = routers.DefaultRouter()
+
+router.register(r"register", UserViewSet)
+
+urlpatterns = router.urls
