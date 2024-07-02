@@ -3,6 +3,10 @@ venv/
 
 # Django
 db.sqlite3
+__pycache__
+
+# env file
+.env
 
 __pycache__/
 gemini_config.py
