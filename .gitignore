@@ -4,5 +4,6 @@ venv/
 # Django
 db.sqlite3
 
+__pycache__/
 gemini_config.py
 test_input.js

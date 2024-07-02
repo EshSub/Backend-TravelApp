@@ -10,7 +10,7 @@ https://ai.google.dev/gemini-api/docs/get-started/python
 import os
 
 import google.generativeai as genai
-import gemini_config
+import gemini.gemini_config as gemini_config
 
 genai.configure(api_key=gemini_config.gemini_api_key)
 
