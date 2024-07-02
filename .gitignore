@@ -3,3 +3,6 @@ venv/
 
 # Django
 db.sqlite3
+
+gemini_config.py
+test_input.js
