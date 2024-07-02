@@ -3,3 +3,7 @@ venv/
 
 # Django
 db.sqlite3
+__pycache__
+
+# env file
+.env
