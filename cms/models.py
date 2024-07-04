@@ -37,11 +37,15 @@ class Place(TimeStampMixin):
     longitude = models.FloatField(null=True, blank=True)
     types = models.ManyToManyField("Type", related_name="places")
     how_to_visit = models.TextField(null=True, blank=True)
-    accommodation_places_nearby = models.ManyToManyField("self", related_name="places_nearby")
+    accommodation_places_nearby = models.ManyToManyField("self", related_name="places_nearby", blank=True)
     best_time_to_visit_in_year = models.CharField(max_length=100, null=True, blank=True)
     tags = models.ManyToManyField("Tag", related_name="places", blank=True)
     activities = models.ManyToManyField("Activity", related_name="places", through="PlaceActivity", blank=True)
     data = models.JSONField(null=True, blank=True)
+
+    def __str__(self):
+        return self.place_name
+    
 # column1=place_id,column2=place_name,column3=description,column4=district,column5=province,column6=ticket_price,column7=location,column8=latitude,column9=longitude,column10=how_to_visit,,column11=best_time_to_visit_in_year,,column12=data
 class Activity(TimeStampMixin):
     activity_id = models.AutoField(primary_key=True)
@@ -61,7 +65,13 @@ class Type(TimeStampMixin):
     name = models.CharField(max_length=255)
     description = models.TextField(null=True, blank=True)
 
+    def __str__(self):
+        return self.name
+
 class Tag(TimeStampMixin):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
 
