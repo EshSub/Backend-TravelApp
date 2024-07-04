@@ -8,5 +8,6 @@ __pycache__
 # env file
 .env
 
+__pycache__/
 gemini_config.py
 test_input.js
