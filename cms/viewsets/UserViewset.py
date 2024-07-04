@@ -34,7 +34,7 @@ class UserViewSet(viewsets.ModelViewSet):
         user.set_password(data["password"])
         user.save()
         profile, is_created = Profile.objects.get_or_create(user = user, defaults={"is_verified" : False})
-        return Response(data={"success" : True, "user_id" : user.id}, status=status.HTTP_200_OK)
+        return Response(data={"success" : True}, status=status.HTTP_200_OK)
     
     @action(methods= ["POST"], detail = False)
     def emailVerification(self, request, *args, **kwargs):
@@ -55,34 +55,34 @@ class UserViewSet(viewsets.ModelViewSet):
     # @action(methods=['POST'], detail=False)
     # def googleLogin(self, request):
 
-    @action(methods=['GET'], detail=False)
+    @action(methods=['POST'], detail=False)
     def sendEmail(self, request, *args, **kwargs):
-        # response = {'email': '', user_id: ''}
-        data = request.data
-        id = data["user_id"]
-        user = User.objects.get(pk= id)
-        code = str(round(random.uniform(1, 9) * 100000))
+        try:
+            user = request.user
+            code = str(round(random.uniform(1, 9) * 100000))
 
-        msg_plain = render_to_string(
-           os.path.join(
-                     settings.BASE_DIR,
-                    "cms",
-                    "templates",
-                    "email_confirm",
-                    "email_confirm.txt"), 
-            {"email": data['email'], "code": code}
-        )
-        send_mail(
-            subject='Activate your touracross account',
-            message=msg_plain,
-            from_email=settings.EMAIL_HOST_USER,
-            recipient_list=[data['email']]
-        )
-        
-        #save the code in the emailConfirmationTable
-        confirmation = EmailConfirmation(user=user, code=code)
-        confirmation.save()
-        return Response(data={'success': True, 'confirmation': confirmation.id}, status=status.HTTP_200_OK)
+            msg_plain = render_to_string(
+            os.path.join(
+                        settings.BASE_DIR,
+                        "cms",
+                        "templates",
+                        "email_confirm",
+                        "email_confirm.txt"), 
+                {"email": user.email, "code": code}
+            )
+            send_mail(
+                subject='Activate your touracross account',
+                message=msg_plain,
+                from_email=settings.EMAIL_HOST_USER,
+                recipient_list=[user.email]
+            )
+            
+            #save the code in the emailConfirmationTable
+            confirmation = EmailConfirmation(user=user, code=code)
+            confirmation.save()
+            return Response(data={'success': True, 'confirmation': confirmation.id}, status=status.HTTP_200_OK)
+        except Exception as e:
+            print('error')
     
     @action(methods=['GET'], detail=False, permission_classes=[permissions.AllowAny])
     def getData(self, request):
