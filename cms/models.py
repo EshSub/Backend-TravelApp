@@ -46,7 +46,7 @@ class Place(TimeStampMixin):
     def __str__(self):
         return self.place_name
     
-# column1=place_id,column2=place_name,column3=description,column4=district,column5=province,column6=ticket_price,column7=location,column8=latitude,column9=longitude,column10=how_to_visit,,column11=best_time_to_visit_in_year,,column12=data
+# column1=place_id,column2=place_name,column3=description,column4=district_id,column5=province_id,column6=ticket_price,column7=location,column8=latitude,column9=longitude,column10=how_to_visit,,column11=best_time_to_visit_in_year,,column12=data
 class Activity(TimeStampMixin):
     activity_id = models.AutoField(primary_key=True)
     activity_name = models.CharField(max_length=255)
@@ -59,7 +59,7 @@ class PlaceActivity(TimeStampMixin):
     activity = models.ForeignKey(Activity, related_name="place_activities", on_delete=models.PROTECT, null=True , blank=True)
     description = models.TextField(null=True, blank=True)
     data = models.JSONField(null=True, blank=True)
-# column1=id,column2=place,column3=activity,column4=description,column5=data
+# column1=id,column2=place_id,column3=activity_id,column4=description,column5=data
 class Type(TimeStampMixin):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
