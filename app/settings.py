@@ -45,8 +45,11 @@ INSTALLED_APPS = [
     'rest_framework',
     "corsheaders",
     'cms',
-    'messaging'
+    'messaging',
+    'channels',
 ]
+
+
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
@@ -78,6 +81,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'app.urls'
 
+
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -94,8 +99,8 @@ TEMPLATES = [
     },
 ]
 
+ASGI_APPLICATION = 'app.asgi.application'
 WSGI_APPLICATION = 'app.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
