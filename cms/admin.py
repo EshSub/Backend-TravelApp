@@ -1,6 +1,6 @@
 from django.contrib import admin
 from cms.models import Profile, EmailConfirmation, Place, Activity, PlaceActivity, Type, Tag, District, Province
-
+from messaging.models import Message, Conversation
 class ListAdmin(admin.ModelAdmin):
     def __init__(self, model, admin_site):
         fields = model._meta.fields
@@ -31,4 +31,6 @@ admin.site.register(Type, ListAdmin)
 admin.site.register(Tag, ListAdmin)
 admin.site.register(District, ListAdmin)
 admin.site.register(Province, ListAdmin)
+admin.site.register(Message,ListAdmin)
+admin.site.register(Conversation,ListAdmin)
 

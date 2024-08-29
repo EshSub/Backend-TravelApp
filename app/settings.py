@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'django_filters',
     'rest_framework',
     "corsheaders",
-    'cms'
+    'cms',
+    'messaging'
 ]
 
 REST_FRAMEWORK = {
