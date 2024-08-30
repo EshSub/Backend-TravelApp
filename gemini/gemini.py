@@ -118,8 +118,8 @@ def get_plan(duration=7, preferred_activities=["diving", "snorkelling", "kayakin
     """,
     "output:",
     ])
-    print('```' == response.text[-3:])
-    print(response.text)
+    # print('```' == response.text[-3:])
+    # print(response.text)
     try:
       final_response = json.loads(response.text.strip()[8:-3])
     except Exception as e:
