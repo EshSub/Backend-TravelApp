@@ -4,6 +4,8 @@ from .serializers import ProfileSerializer, EmailConfirmationSerializer, Distric
 from math import radians, sin, cos, sqrt, atan2
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.filters import OrderingFilter
+from django_filters.rest_framework import DjangoFilterBackend
 
 class ProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
@@ -24,6 +26,7 @@ class ProvinceViewSet(viewsets.ModelViewSet):
 class PlaceViewSet(viewsets.ModelViewSet):
     queryset = Place.objects.all()
     serializer_class = PlaceSerializer
+    filterset_fields = ['district','activities']
 
     @action(detail=True, methods=['get'])
     def nearby_accommodations(self, request, pk=None):
@@ -59,6 +62,10 @@ class PlaceViewSet(viewsets.ModelViewSet):
 class ActivityViewSet(viewsets.ModelViewSet):
     queryset = Activity.objects.all()
     serializer_class = ActivitySerializer
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    filterset_fields = ['places']
+    ordering_fields = ['activity_id', 'activity_name', 'place_activities', 'places']  # Specify the fields that can be used for ordering
+    ordering = ['activity_id'] # Specify the default ordering
 
 class PlaceActivityViewSet(viewsets.ModelViewSet):
     queryset = PlaceActivity.objects.all()

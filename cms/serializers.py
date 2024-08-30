@@ -39,7 +39,7 @@ class PlaceSerializer(serializers.ModelSerializer):
     district_name = serializers.SerializerMethodField()
     province_name = serializers.SerializerMethodField()
     activity_objects = serializers.SerializerMethodField()
-    accommodation_places_nearby = serializers.SerializerMethodField()
+    # accommodation_places_nearby = serializers.SerializerMethodField()
     class Meta:
         model = Place
         fields = '__all__'
