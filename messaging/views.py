@@ -29,11 +29,13 @@ class MessageViewSet(viewsets.ModelViewSet):
         # Get the conversation ID from the newly created message
         conversation_id = serializer.validated_data['conversation'].id  # Corrected field reference
         current_message = serializer.validated_data['message']
+        messages = Message.objects.filter(conversation_id=conversation_id).order_by('-date', '-time')[:5]
+        message_history = messages.values('date', 'time', 'message')
 
         conversation = Conversation.objects.get(id=conversation_id)  # Corrected field reference
 
         if conversation.isAI:
-            ai_response = self.get_response_AI(conversation_id, current_message)
+            ai_response = self.get_response_AI(conversation_id, message_history)
 
             Message.objects.create(
                 conversation_id=conversation.id,  # Corrected field reference  
