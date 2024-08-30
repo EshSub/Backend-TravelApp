@@ -28,3 +28,8 @@ urlpatterns = [
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),    
 ]
+
+websocket_urlpatterns = [
+    # re_path(r'ws/test/', MachineConsumer.as_asgi()),
+    # re_path(r'ws/room/(?P<room_id>\w+)/$', MachineConsumer.as_asgi()),
+]
