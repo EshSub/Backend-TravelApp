@@ -1,14 +1,7 @@
 from django.shortcuts import render
-
-# Create your views here.
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from rest_framework.response import Response
-from rest_framework import status
-from .models import Conversation, Message
-from .serializers import ConversationSerializer, MessageSerializer
-
-from rest_framework import status, viewsets
-from rest_framework.response import Response
+from datetime import datetime
 from .models import Conversation, Message
 from .serializers import ConversationSerializer, MessageSerializer
 
@@ -34,30 +27,19 @@ class MessageViewSet(viewsets.ModelViewSet):
         self.perform_create(serializer)
         
         # Get the conversation ID from the newly created message
-        conversation_id = serializer.validated_data['conversation'].conversation_id
+        conversation_id = serializer.validated_data['conversation'].id  # Corrected field reference
         current_message = serializer.validated_data['message']
 
-        # Retrieve the last 20 messages from the conversation
-        # messages = Message.objects.filter(conversation_id=conversation_id).order_by('-date', '-time')[:20]
-        
-        # Create a JSON representation of the conversation history
-        # messages_json = self.create_conversation_json(messages)
-        # message_json = messages.values('date', 'time', 'message', 'place')        
-
-        # If the conversation is AI-based, pass the conversation ID and current message to the AI response function
-        conversation = Conversation.objects.get(conversation_id=conversation_id)
-
-        # If the conversation is AI-based, pass the JSON to the AI response function
-        # conversation = Conversation.objects.get(conversation_id=conversation_id)
+        conversation = Conversation.objects.get(id=conversation_id)  # Corrected field reference
 
         if conversation.isAI:
             ai_response = self.get_response_AI(conversation_id, current_message)
-            # Optionally, save the AI response as a new message in the conversation
+
             Message.objects.create(
-                conversation=conversation,
-                date=serializer.validated_data['date'],
-                time=serializer.validated_data['time'],
-                message=ai_response
+                conversation_id=conversation.id,  # Corrected field reference  
+                date=datetime.now().date(),  # Current date
+                time=datetime.now().time(),  # Current time
+                message=ai_response,
             )
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
