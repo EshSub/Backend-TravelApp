@@ -1,7 +1,7 @@
 from django.urls import path, include
 from cms.viewsets.UserViewset import UserViewSet
 from rest_framework import routers
-from cms.views import ProfileViewSet, EmailConfirmationViewSet, DistrictViewSet, ProvinceViewSet, PlaceViewSet, ActivityViewSet, PlaceActivityViewSet, TypeViewSet, TagViewSet
+from cms.views import ProfileViewSet, EmailConfirmationViewSet, DistrictViewSet, ProvinceViewSet, PlaceViewSet, ActivityViewSet, PlaceActivityViewSet, TypeViewSet, TagViewSet,PlanViewSet
 
 router = routers.DefaultRouter()
 
@@ -15,6 +15,7 @@ router.register(r"activity", ActivityViewSet)
 router.register(r"placeactivity", PlaceActivityViewSet)
 router.register(r"type", TypeViewSet)
 router.register(r"tag", TagViewSet)
+router.register(r"plan", PlanViewSet)
 
 
 urlpatterns = router.urls

@@ -1,7 +1,7 @@
 
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import Profile, EmailConfirmation, District, Province, Place, Activity, PlaceActivity, Type, Tag
+from .models import Profile, EmailConfirmation, District, Province, Place, Activity, PlaceActivity, Type, Tag, Plan
 from math import radians, sin, cos, sqrt, atan2
 
 class UserSerializer(serializers.ModelSerializer):
@@ -72,4 +72,10 @@ class ActivitySerializer(serializers.ModelSerializer):
 class PlaceActivitySerializer(serializers.ModelSerializer):
     class Meta:
         model = PlaceActivity
+        fields = '__all__'
+
+
+class PlanSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Plan
         fields = '__all__'
