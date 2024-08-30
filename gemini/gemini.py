@@ -123,7 +123,7 @@ def get_plan(duration=7, preferred_activities=["diving", "snorkelling", "kayakin
     try:
       final_response = json.loads(response.text.strip()[8:-3])
     except Exception as e:
-      return response.text.strip()[8:-3],"FAILED"
+      return response.text,"FAILED"
     final_location = final_response[-1]['area']
     for item in final_response:
       if item['type'] == 'destination':
@@ -135,4 +135,4 @@ def get_plan(duration=7, preferred_activities=["diving", "snorkelling", "kayakin
     # print(prevloc)
     # # print(response.text)
 
-  return plans_per_day, "Success"
+  return plans_per_day, "SUCCESS"
