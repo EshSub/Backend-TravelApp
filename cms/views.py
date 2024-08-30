@@ -6,6 +6,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.filters import OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import permissions
 
 class ProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
@@ -27,6 +28,7 @@ class PlaceViewSet(viewsets.ModelViewSet):
     queryset = Place.objects.all()
     serializer_class = PlaceSerializer
     filterset_fields = ['district','activities']
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     @action(detail=True, methods=['get'])
     def nearby_accommodations(self, request, pk=None):
@@ -66,6 +68,7 @@ class ActivityViewSet(viewsets.ModelViewSet):
     filterset_fields = ['places']
     ordering_fields = ['activity_id', 'activity_name', 'place_activities', 'places']  # Specify the fields that can be used for ordering
     ordering = ['activity_id'] # Specify the default ordering
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 class PlaceActivityViewSet(viewsets.ModelViewSet):
     queryset = PlaceActivity.objects.all()

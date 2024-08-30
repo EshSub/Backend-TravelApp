@@ -39,7 +39,7 @@ class PlaceSerializer(serializers.ModelSerializer):
     district_name = serializers.SerializerMethodField()
     province_name = serializers.SerializerMethodField()
     activity_objects = serializers.SerializerMethodField()
-    # accommodation_places_nearby = serializers.SerializerMethodField()
+    accommodation_places_nearby = serializers.SerializerMethodField()
     class Meta:
         model = Place
         fields = '__all__'
@@ -50,7 +50,8 @@ class PlaceSerializer(serializers.ModelSerializer):
         return obj.province.name
     def get_activity_objects(self, obj):
         return obj.activities.values("activity_id", "activity_name", "description")
-
+    def get_accommodation_places_nearby(self, obj):
+        return obj.accommodation_places_nearby.values("place_id", "place_name", "description")
     
 class TypeSerializer(serializers.ModelSerializer):
     class Meta:
