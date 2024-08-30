@@ -25,6 +25,15 @@ class District(TimeStampMixin):
 class Province(TimeStampMixin):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
+
+class Image(TimeStampMixin):
+    id = models.AutoField(primary_key=True)
+    data = models.TextField(null=True, blank=True)
+    url = models.CharField(max_length=1000)
+
+    def __str__(self):
+        return f"Image {self.id}"
+
 class Place(TimeStampMixin):
     place_id = models.AutoField(primary_key=True)
     place_name = models.CharField(max_length=255)
@@ -42,11 +51,15 @@ class Place(TimeStampMixin):
     tags = models.ManyToManyField("Tag", related_name="places", blank=True)
     activities = models.ManyToManyField("Activity", related_name="places", through="PlaceActivity", blank=True)
     data = models.JSONField(null=True, blank=True)
+    ratings = models.FloatField(null=True, blank=True)
+    header_image = models.ForeignKey(Image, on_delete=models.PROTECT, null=True, blank=True)
+    images = models.ManyToManyField(Image, related_name="places")
 
     def __str__(self):
         return self.place_name
     
 # column1=place_id,column2=place_name,column3=description,column4=district_id,column5=province_id,column6=ticket_price,column7=location,column8=latitude,column9=longitude,column10=how_to_visit,,column11=best_time_to_visit_in_year,,column12=data
+
 class Activity(TimeStampMixin):
     activity_id = models.AutoField(primary_key=True)
     activity_name = models.CharField(max_length=255)
