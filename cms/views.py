@@ -24,6 +24,7 @@ class ProvinceViewSet(viewsets.ModelViewSet):
 class PlaceViewSet(viewsets.ModelViewSet):
     queryset = Place.objects.all()
     serializer_class = PlaceSerializer
+    filterset_fields = ['district','activities']
 
     @action(detail=True, methods=['get'])
     def nearby_accommodations(self, request, pk=None):
@@ -59,6 +60,7 @@ class PlaceViewSet(viewsets.ModelViewSet):
 class ActivityViewSet(viewsets.ModelViewSet):
     queryset = Activity.objects.all()
     serializer_class = ActivitySerializer
+    filterset_fields = ['places']
 
 class PlaceActivityViewSet(viewsets.ModelViewSet):
     queryset = PlaceActivity.objects.all()
