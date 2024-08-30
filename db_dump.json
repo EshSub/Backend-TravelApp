@@ -6253,24 +6253,6 @@
     }
   },
   {
-    "model": "auth.user",
-    "pk": 1,
-    "fields": {
-      "password": "pbkdf2_sha256$600000$QX9mlb3vzBxI6ntAdqx6k2$ttDQvQxLoEio41zCYXG2fUqFyenPEnwAcgAmWDkBCKk=",
-      "last_login": "2024-07-04T10:02:15.161Z",
-      "is_superuser": true,
-      "username": "admin",
-      "first_name": "",
-      "last_name": "",
-      "email": "subodha162@gmail.com",
-      "is_staff": true,
-      "is_active": true,
-      "date_joined": "2024-07-04T07:52:12.083Z",
-      "groups": [],
-      "user_permissions": []
-    }
-  },
-  {
     "model": "sessions.session",
     "pk": "3rmzr56ivu8sk4fqxw9qs3usxlya0zy3",
     "fields": {
