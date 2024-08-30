@@ -8,35 +8,131 @@ https://ai.google.dev/gemini-api/docs/get-started/python
 """
 
 import os
+import json
 
 import google.generativeai as genai
-import gemini.gemini_config as gemini_config
+from gemini.gemini_config import gemini_api_key
 
-genai.configure(api_key=gemini_config.gemini_api_key)
+genai.configure(api_key=gemini_api_key)
 
-# Create the model
-# See https://ai.google.dev/api/python/google/generativeai/GenerativeModel
-generation_config = {
-  "temperature": 0.55,
-  "top_p": 0.95,
-  "top_k": 64,
-  "max_output_tokens": 8192,
-  "response_mime_type": "text/plain",
-}
+def get_plan(duration=7, preferred_activities=["diving", "snorkelling", "kayaking", "sea bathing", "boat rides"], description="I want to do some water activities around downsouth area"):
+    
+  # Create the model
+  # See https://ai.google.dev/api/python/google/generativeai/GenerativeModel
+  generation_config = {
+    "temperature": 0.55,
+    "top_p": 0.95,
+    "top_k": 64,
+    "max_output_tokens": 8192,
+    "response_mime_type": "text/plain",
+  }
 
-model = genai.GenerativeModel(
-  model_name="gemini-1.5-flash",
-  generation_config=generation_config,
-  # safety_settings = Adjust safety settings
-  # See https://ai.google.dev/gemini-api/docs/safety-settings
-)
+  model = genai.GenerativeModel(
+    model_name="gemini-1.5-flash",
+    generation_config=generation_config,
+    # safety_settings = Adjust safety settings
+    # See https://ai.google.dev/gemini-api/docs/safety-settings
+  )
 
-response = model.generate_content([
-  "input: A trip plan needs to be based on the following user input. First, go over the general details. Then refine the options based on the day-by-day information provided by the user. Finally, format the output in the required format provided in the example.\n\nUser Input:\n{  general: {    country: \"Sri Lanka\", duration: 1,    preferred_activities: [      \"surfing\",      \"hiking\",        \"swimming\",  \"trekking\"   ],    food: [      \"any\",    ],    budget: [\"medium\"],    activity_hardness_level: [\"low\"],    duration: [\"medium\"],    description: \"I want to go on a trip to the south and enjoy the beaches. I want to eat seafood and have a medium budget. I want to go for 1 day.\"  },  daily_preferences: [    {      date_range: { start: 1, end: 1},      activities: [\"cycling\", \"surfing\",\"swimming\"],      food: [\"any\"],      budget: \"low\",      activity_hardness_level: \"high\",      duration: \"short\",    },  ],};",
-  "output: [  {    type: \"destination\",    time: \"morning\",    area: \"rumassala\",    activities: [\"snorkeling\", \"jungle trekking\", \"beach\"],    props: {      type: \"adventure\",      price: \"free\",    },  },  {    type: \"food\",    time: \"morning\",    area: \"rumassala\",    props: {      food: \"breakfast\",      type: \"local\",      price: \"low\",    },  },  {    type: \"travel\",    time: \"morning\",    props: {      confortable: \"yes\",      price: \"low\",      start: \"rumassala\",      end: \"galle\",    },  },  {    type: \"destination\",    time: \"evening\",    area: \"galle\",    props: {      type: \"cultural\",      price: \"free\",    },  },  {    type: \"food\",    time: \"evening\",    area: \"galle\",    props: {      food: \"dinner\",      type: \"local\",      price: \"low\",    },  },  {    type: \"travel\",    time: \"evening\",    props: {      confortable: \"yes\",      price: \"low\",      start: \"galle\",      end: \"unawatuna\",    },  },  {    type: \"destination\",    time: \"night\",    area: \"unawatuna\",    props: {      type: \"beach\",      price: \"free\",    },  },  {    type: \"food\",    time: \"night\",    area: \"unawatuna\",    props: {      food: \"dinner\",      type: \"local\",      price: \"low\",    },  },  {    type: \"accommodation\",    time: \"night\",    area: \"unawatuna\",    props: {      type: \"hotel\",      price: \"low\",    },  },];",
-  "input: A trip plan needs to be based on the following user input. First, go over the general details. Then refine the options based on the day-by-day information provided by the user. Finally, format the output in the required format provided in the example.\n\n\
-    User Input:\n{  general: {    country: \"Sri Lanka\", duration: 6,    preferred_activities: [      \"surfing\",      \"hiking\",        \"swimming\",  \"snorkelling\"  ],    food: [      \"any\",    ],    budget: [\"medium\"],    activity_hardness_level: [\"low\"],    duration: [\"medium\"],    description: \"I want to go on a trip to the mountains and do some hiking. I want to eat seafood and have a medium budget. I want to go for 4 days.\"  },  daily_preferences: [    {      date_range: { start: 1, end: 2 },      activities: [\"cycling\", \"surfing\"],      food: [\"pizza\", \"burgers\"],      budget: \"low\",      activity_hardness_level: \"high\",      duration: \"short\",    },    {      date_range: { start: 2, end: 4 },      activities: [\"hiking\"],      food: [\"any\"],      budget: \"medium\",      activity_hardness_level: \"medium\",    },    {      date_range: { start: 4, end: 6 },      activities: [\"kayaking\"],      food: [\"rice\", \"pasta\"],      budget: \"high\",      activity_hardness_level: \"medium\",    },  ],};",
-  "output: ",
-])
 
-print(response.text)
+  day = 1
+  prevloc = set()
+  final_location = "Colombo"
+  duration = 5
+  # preferred_activities = ["diving", "snorkelling", "kayaking", "sea bathing", "boat rides"]
+  preferred_activities = ["animals"]
+  description = "I like anything to do with animals"
+
+  chat = model.start_chat(history=[])
+
+  plans_per_day = []
+  for i in range(1, duration+1):
+    
+    response = chat.send_message([
+    """input: I am on a trip to Sri Lanka. This is day {i}. Give me a trip plan for today based on the User Inputs. First identify a pattern of my intrest using the preffered activities and the description and find unique activities for me to do each day checking the previous activities done covering most areas of Sri Lanka. Please take care to give the area as a district of Sri Lanka. Strictly adhere to the given output format of JSON string.
+    User Input: \n {general: {Previous locations :[ ]} , Last location: Colombo , preferred_activities: [diving, snorkelling,kayaking, sea bathing, boat rides] , description: "I want to do some water activities around downsouth area"}"""	,
+    """output:
+    [
+    {
+      "type": "food",
+      "time": "morning",
+      "area": "Galle",
+      "props": {
+        "food": "breakfast",
+        "type": "traditional",
+        "price": "low"
+      }
+    },
+    {
+      "type": "destination",
+      "time": "morning",
+      "area": "Galle",
+      "activities": "surfing",
+      "props": {
+        "type": "adventure",
+        "price": "medium"
+      }
+    },
+    {
+      "type": "food",
+      "time": "evening",
+      "area": "Galle",
+      "props": {
+        "food": "lunch",
+        "type": "traditional",
+        "price": "low"
+      }
+    },
+    {
+      "type": "destination",
+      "time": "afternoon",
+      "area": "Galle",
+      "activities": "kayaking",
+      "props": {
+        "type": "adventure",
+        "price": "medium"
+      }
+    },
+    {
+      "type": "food",
+      "time": "night",
+      "area": "Galle",
+      "props": {
+        "food": "dinner",
+        "type": "seafood",
+        "price": "medium"
+      }
+    },
+    {
+      "type": "accommodation",
+      "time": "night",
+      "area": "Galle",
+      "props": {
+        "type": "hotel",
+        "price": "medium"
+      }
+    }
+  ]""",
+    f"""input: I am on a trip to Sri Lanka. This is day {i}. Give me a trip plan for today based on the User Inputs. First identify a pattern of my intrest using the preffered activities and the description and find unique activities for me to do each day checking the previous activities done covering most areas of Sri Lanka. Strictly adhere to the given output format of JSON string.
+    User Input: \n Previous locations : {prevloc} , Last location: {final_location} , preferred_activities: {preferred_activities} , description: "{description}" 
+    """,
+    "output:",
+    ])
+    print('```' == response.text[-3:])
+    print(response.text)
+    try:
+      final_response = json.loads(response.text.strip()[8:-3])
+    except Exception as e:
+      return response.text.strip()[8:-3],"FAILED"
+    final_location = final_response[-1]['area']
+    for item in final_response:
+      if item['type'] == 'destination':
+        prevloc.add(item['area']+" "+item['activities'])
+
+    plans_per_day.append(final_response)
+    # print(final_response)
+    # print(final_location)
+    # print(prevloc)
+    # # print(response.text)
+
+  return plans_per_day, "Success"

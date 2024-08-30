@@ -75,4 +75,9 @@ class Tag(TimeStampMixin):
     def __str__(self):
         return self.name
 
+class Plan(TimeStampMixin):
+    id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(User, related_name="plans", on_delete=models.CASCADE)
+    Input_data = models.JSONField()
+    created_plan = models.JSONField(null=True, blank=True)
 
