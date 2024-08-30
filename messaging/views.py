@@ -38,7 +38,7 @@ class MessageViewSet(viewsets.ModelViewSet):
             ai_response = self.get_response_AI(conversation_id, message_history)
 
             Message.objects.create(
-                conversation_id=conversation.id,  # Corrected field reference  
+                conversation_id=conversation_id,  # Corrected field reference  
                 date=datetime.now().date(),  # Current date
                 time=datetime.now().time(),  # Current time
                 message=ai_response,

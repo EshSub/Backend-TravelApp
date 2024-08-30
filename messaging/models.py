@@ -1,6 +1,7 @@
 from django.db import models
 from cms.models import Place
 from django.contrib.auth.models import User
+from datetime import date, time
 
 # Create your models here.
 class Conversation(models.Model):
@@ -13,8 +14,8 @@ class Conversation(models.Model):
     
 class Message(models.Model):
     id = models.AutoField(primary_key=True)
-    date = models.DateField()
-    time = models.TimeField()
+    date = models.DateField(default=date.today)
+    time = models.TimeField(default=time)
     conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE)
     message = models.TextField() 
     place = models.ForeignKey(Place, null=True, blank=True, on_delete=models.PROTECT)  
