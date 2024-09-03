@@ -141,3 +141,67 @@ def get_plan(duration=7, preferred_activities=["diving", "snorkelling", "kayakin
     # # print(response.text)
 
   return plans_per_day, "SUCCESS"
+
+def chat_ai_response(history):
+    print("==========================")
+    print(history)
+    if not history:
+        return "No message received."
+    
+    generation_config = {
+        "temperature": 0.55,
+        "top_p": 0.95,
+        "top_k": 64,
+        "max_output_tokens": 8192,
+        "response_mime_type": "text/plain",
+    }
+
+    # Assuming safety settings need to be set, add a placeholder
+    # safety_settings = {
+    #     "restrictiveness_level": "high"  # Example setting
+    # }
+
+    # Initialize the model with the specified configuration and safety settings
+    model = genai.GenerativeModel(
+        model_name="gemini-1.5-flash",
+        generation_config=generation_config,
+        # safety_settings=safety_settings
+    )
+
+    # Start a chat session using the model
+    chat_session = model.start_chat()
+
+    # Sending the most recent message in history to the model
+    response = chat_session.send_message(history[-1])
+    return response.text
+
+# Example usage
+# print(chat_ai_response(['Hi']))
+
+def chat_ai_response1(history):
+    print("==========================")
+    print(history)
+    if not history:
+        return "No message received."
+    
+    generation_config = {
+        "temperature": 0.55,
+        "top_p": 0.95,
+        "top_k": 64,
+        "max_output_tokens": 8192,
+        # Ensure this field is valid or remove it if causing issues
+        # "response_mime_type": "text/plain",
+    }
+
+    try:
+        model = genai.GenerativeModel(
+            model_name="gemini-1.5-flash",
+            generation_config=generation_config,
+        )
+
+        chat_session = model.start_chat()
+        response = chat_session.send_message(f"Give the answer to the final question, based on the previous context given in this list {history}")
+        return response.text
+    except Exception as e:
+        print("An error occurred:", e)
+        return "An error occurred while generating the response."
