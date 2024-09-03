@@ -72,6 +72,7 @@ class PlaceActivity(TimeStampMixin):
     activity = models.ForeignKey(Activity, related_name="place_activities", on_delete=models.PROTECT, null=True , blank=True)
     description = models.TextField(null=True, blank=True)
     data = models.JSONField(null=True, blank=True)
+    
 # column1=id,column2=place_id,column3=activity_id,column4=description,column5=data
 class Type(TimeStampMixin):
     id = models.AutoField(primary_key=True)
