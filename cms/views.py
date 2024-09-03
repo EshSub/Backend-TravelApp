@@ -167,6 +167,5 @@ class PlanViewSet(viewsets.ModelViewSet):
         else:
             # If the serializer is not valid, return the errors
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        
 
 
