@@ -1,33 +1,20 @@
 from rest_framework import viewsets
-from .models import (
-    Profile,
-    EmailConfirmation,
-    District,
-    Province,
-    Place,
-    Activity,
-    PlaceActivity,
-    Type,
-    Tag,
-)
-from .serializers import (
-    ProfileSerializer,
-    EmailConfirmationSerializer,
-    DistrictSerializer,
-    ProvinceSerializer,
-    PlaceSerializer,
-    ActivitySerializer,
-    PlaceActivitySerializer,
-    TypeSerializer,
-    TagSerializer,
-)
+from .models import Profile, EmailConfirmation, District, Province, Place, Activity, PlaceActivity, Type, Tag, Plan
+from .serializers import ProfileSerializer, EmailConfirmationSerializer, DistrictSerializer, ProvinceSerializer, PlaceSerializer, ActivitySerializer, PlaceActivitySerializer, TypeSerializer, TagSerializer, PlanSerializer
 from math import radians, sin, cos, sqrt, atan2
 from rest_framework.decorators import action
 from rest_framework.response import Response
+
 from rest_framework.filters import OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import permissions
 from django.core.mail import send_mail
+
+
+from gemini.gemini import get_plan
+from rest_framework import permissions
+from django.contrib.auth.models import User
+from rest_framework import status
 
 
 class ProfileViewSet(viewsets.ModelViewSet):
@@ -142,3 +129,44 @@ class TypeViewSet(viewsets.ModelViewSet):
 class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
+
+class PlanViewSet(viewsets.ModelViewSet):
+    queryset = Plan.objects.all()
+    serializer_class = PlanSerializer
+
+    def create(self, request):
+        user = request.user
+        request_data = request.data
+
+        input_data = {
+            "duration": 7,
+            "preferred_activities": ["diving", "snorkelling", "kayaking", "sea bathing", "hiking"],	
+            "description": "I want to do some water activities around downsouth area"	
+        }
+        
+        # Extract data from request with default values
+        days = request_data.get("duration", 7)
+        activities = request_data.get("preferred_activities", ["diving", "snorkelling", "kayaking", "sea bathing", "hiking"])
+        description = request_data.get("description", "I want to do some water activities around downsouth area")
+        
+        # Call your custom function to get the plan
+        created_plan, message = get_plan(days, activities, description)
+        
+        # Prepare data for the serializer
+        plan_data = {
+            "user": user.id,
+            "Input_data": input_data,
+            "created_plan": created_plan
+        }
+        
+        # Create a serializer instance with data to validate and save the plan
+        serializer = self.get_serializer(data=plan_data)
+        if serializer.is_valid():
+            serializer.save()  # Save the validated data to the database
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            # If the serializer is not valid, return the errors
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+
+
