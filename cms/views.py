@@ -139,15 +139,15 @@ class PlanViewSet(viewsets.ModelViewSet):
         request_data = request.data
 
         input_data = {
-            "duration": 7,
-            "preferred_activities": ["diving", "snorkelling", "kayaking", "sea bathing", "hiking"],	
-            "description": "I want to do some water activities around downsouth area"	
+            "duration": request_data.get("duration", 2),
+            "preferred_activities": request_data.get("preferred_activities", ["diving", "snorkelling", "kayaking", "sea bathing", "hiking"]),	
+            "description": request_data.get("description", "I want to do some water activities around downsouth area")	
         }
         
         # Extract data from request with default values
-        days = request_data.get("duration", 7)
-        activities = request_data.get("preferred_activities", ["diving", "snorkelling", "kayaking", "sea bathing", "hiking"])
-        description = request_data.get("description", "I want to do some water activities around downsouth area")
+        days = input_data.get("duration")
+        activities = input_data.get("preferred_activities")
+        description = input_data.get("description")
         
         # Call your custom function to get the plan
         created_plan, message = get_plan(days, activities, description)

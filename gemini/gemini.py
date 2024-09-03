@@ -9,9 +9,14 @@ https://ai.google.dev/gemini-api/docs/get-started/python
 
 import os
 import json
-
+import environ
 import google.generativeai as genai
-from gemini.gemini_config import gemini_api_key
+
+
+env = environ.Env()
+
+environ.Env.read_env()
+gemini_api_key = env("GEMINI_API_KEY")
 
 genai.configure(api_key=gemini_api_key)
 
