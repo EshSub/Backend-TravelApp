@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 class ConversationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Conversation
-        fields = ['conversation_id', 'user_id', 'isAI']
+        fields = "__all__"
 
 class MessageSerializer(serializers.ModelSerializer):
     conversation = serializers.PrimaryKeyRelatedField(queryset=Conversation.objects.all())
@@ -15,4 +15,4 @@ class MessageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Message
-        fields = ['date', 'time', 'conversation', 'message', 'place_id', 'guide_id']
+        fields = "__all__"
