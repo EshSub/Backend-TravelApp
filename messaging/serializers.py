@@ -10,8 +10,8 @@ class ConversationSerializer(serializers.ModelSerializer):
 
 class MessageSerializer(serializers.ModelSerializer):
     conversation = serializers.PrimaryKeyRelatedField(queryset=Conversation.objects.all())
-    place_id = serializers.PrimaryKeyRelatedField(queryset=Place.objects.all(), allow_null=True, required=False)
-    guide_id = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), allow_null=True, required=False)
+    # place_id = serializers.PrimaryKeyRelatedField(queryset=Place.objects.all(), allow_null=True, required=False)
+    # guide_id = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), allow_null=True, required=False)
 
     class Meta:
         model = Message
