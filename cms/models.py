@@ -51,7 +51,7 @@ class Place(TimeStampMixin):
     tags = models.ManyToManyField("Tag", related_name="places", blank=True)
     activities = models.ManyToManyField("Activity", related_name="places", through="PlaceActivity", blank=True)
     data = models.JSONField(null=True, blank=True)
-    ratings = models.FloatField(null=True, blank=True)
+    rating = models.FloatField(null=True, blank=True)
     header_image = models.ForeignKey(Image, on_delete=models.PROTECT, null=True, blank=True)
     images = models.ManyToManyField(Image, related_name="places")
 
