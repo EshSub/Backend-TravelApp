@@ -143,8 +143,6 @@ def get_plan(duration=7, preferred_activities=["diving", "snorkelling", "kayakin
   return plans_per_day, "SUCCESS"
 
 def chat_ai_response(history):
-    print("==========================")
-    print(history)
     if not history:
         return "No message received."
     
@@ -155,11 +153,6 @@ def chat_ai_response(history):
         "max_output_tokens": 8192,
         "response_mime_type": "text/plain",
     }
-
-    # Assuming safety settings need to be set, add a placeholder
-    # safety_settings = {
-    #     "restrictiveness_level": "high"  # Example setting
-    # }
 
     # Initialize the model with the specified configuration and safety settings
     model = genai.GenerativeModel(
@@ -172,15 +165,10 @@ def chat_ai_response(history):
     chat_session = model.start_chat()
 
     # Sending the most recent message in history to the model
-    response = chat_session.send_message(history[-1])
+    response = chat_session.send_message(history)
     return response.text
 
-# Example usage
-# print(chat_ai_response(['Hi']))
-
 def chat_ai_response1(history):
-    print("==========================")
-    print(history)
     if not history:
         return "No message received."
     
@@ -200,8 +188,9 @@ def chat_ai_response1(history):
         )
 
         chat_session = model.start_chat()
-        response = chat_session.send_message(f"Give the answer to the final question, based on the previous context given in this list {history}")
+        response = chat_session.send_message(f"Give the answer to the first question: {history[0]}, If possible try to get context from other questions and answers in this list {history}. Only give the answer to the first question, nothing else.")
         return response.text
     except Exception as e:
         print("An error occurred:", e)
         return "An error occurred while generating the response."
+    
