@@ -20,6 +20,6 @@ class Message(models.Model):
     message = models.TextField() 
     place = models.ForeignKey(Place, null=True, blank=True, on_delete=models.PROTECT)  
     guide = models.ForeignKey(User, null=True, blank=True, on_delete=models.PROTECT) 
-
+    
     def __str__(self):
         return f"Message {self.id} in Conversation {self.conversation} on {self.date} at {self.time}"
