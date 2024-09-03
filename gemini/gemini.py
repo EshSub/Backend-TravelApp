@@ -16,9 +16,9 @@ import google.generativeai as genai
 env = environ.Env()
 
 environ.Env.read_env()
-gemini_api_key = env("GEMINI_API_KEY")
+# gemini_api_key = env("GEMINI_API_KEY")
 
-genai.configure(api_key=gemini_api_key)
+genai.configure(api_key="AIzaSyDJh_yYbR-2LzxMvyhM03h90qXHdooGTN8")
 
 def get_plan(duration=7, preferred_activities=["diving", "snorkelling", "kayaking", "sea bathing", "boat rides"], description="I want to do some water activities around downsouth area"):
     
@@ -29,7 +29,7 @@ def get_plan(duration=7, preferred_activities=["diving", "snorkelling", "kayakin
     "top_p": 0.95,
     "top_k": 64,
     "max_output_tokens": 8192,
-    "response_mime_type": "text/plain",
+    # "response_mime_type": "text/plain",
   }
 
   model = genai.GenerativeModel(
@@ -151,7 +151,7 @@ def chat_ai_response(history):
         "top_p": 0.95,
         "top_k": 64,
         "max_output_tokens": 8192,
-        "response_mime_type": "text/plain",
+        # "response_mime_type": "text/plain",
     }
 
     # Initialize the model with the specified configuration and safety settings
@@ -193,4 +193,9 @@ def chat_ai_response1(history):
     except Exception as e:
         print("An error occurred:", e)
         return "An error occurred while generating the response."
-    
+
+if __name__ == "__main__":
+    plans, status = get_plan()
+    print(plans, status)
+    # print(chat_ai_response(["Hello", "How are you?"]))
+    # print(chat_ai_response1(["Hello", "How are you?"]))
