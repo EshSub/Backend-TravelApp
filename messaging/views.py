@@ -10,6 +10,9 @@ class ConversationViewSet(viewsets.ModelViewSet):
     serializer_class = ConversationSerializer
 
     def create(self, request, *args, **kwargs):
+        user = request.user
+        # add user to request data
+        request.data['user'] = user.id
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)            
