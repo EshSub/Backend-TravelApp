@@ -33,6 +33,7 @@ class MessageViewSet(viewsets.ModelViewSet):
         message_history = messages.values('date', 'time', 'message')
 
         conversation = Conversation.objects.get(id=conversation_id)  # Corrected field reference
+        print("conversation", conversation)
 
         if conversation.isAI:
             ai_response = self.get_response_AI(conversation_id, message_history)
