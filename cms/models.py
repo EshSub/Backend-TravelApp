@@ -32,7 +32,7 @@ class Image(TimeStampMixin):
     url = models.CharField(max_length=1000)
 
     def __str__(self):
-        return f"Image {self.id}"
+        return f"{self.data}"
 
 class Place(TimeStampMixin):
     place_id = models.AutoField(primary_key=True)
