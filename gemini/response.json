@@ -1,0 +1,257 @@
+[
+    [
+        {
+            "type": "destination",
+            "time": "morning",
+            "district": "Galle",
+            "activities": "Wildlife Safari",
+            "props": {
+                "type": "adventure",
+                "price": "medium"
+            }
+        },
+        {
+            "type": "restaurant",
+            "time": "morning",
+            "district": "Galle",
+            "props": {
+                "food": "breakfast",
+                "type": "traditional",
+                "price": "low"
+            }
+        },
+        {
+            "type": "destination",
+            "time": "afternoon",
+            "district": "Galle",
+            "activities": "Bird Watching",
+            "props": {
+                "type": "nature",
+                "price": "low"
+            }
+        },
+        {
+            "type": "restaurant",
+            "time": "evening",
+            "district": "Galle",
+            "props": {
+                "food": "lunch",
+                "type": "traditional",
+                "price": "low"
+            }
+        },
+        {
+            "type": "accommodation",
+            "time": "night",
+            "district": "Galle",
+            "props": {
+                "type": "hotel",
+                "price": "medium"
+            }
+        }
+    ],
+    [
+        {
+            "type": "destination",
+            "time": "morning",
+            "district": "Kandy",
+            "activities": "Wildlife Safari",
+            "props": {
+                "type": "adventure",
+                "price": "medium"
+            }
+        },
+        {
+            "type": "restaurant",
+            "time": "morning",
+            "district": "Kandy",
+            "props": {
+                "food": "breakfast",
+                "type": "traditional",
+                "price": "low"
+            }
+        },
+        {
+            "type": "destination",
+            "time": "afternoon",
+            "district": "Kandy",
+            "activities": "Temple Visit",
+            "props": {
+                "type": "cultural",
+                "price": "low"
+            }
+        },
+        {
+            "type": "restaurant",
+            "time": "evening",
+            "district": "Kandy",
+            "props": {
+                "food": "lunch",
+                "type": "traditional",
+                "price": "low"
+            }
+        },
+        {
+            "type": "accommodation",
+            "time": "night",
+            "district": "Kandy",
+            "props": {
+                "type": "hotel",
+                "price": "medium"
+            }
+        }
+    ],
+    [
+        {
+            "type": "destination",
+            "time": "morning",
+            "district": "Trincomalee",
+            "activities": "Whale Watching",
+            "props": {
+                "type": "adventure",
+                "price": "medium"
+            }
+        },
+        {
+            "type": "restaurant",
+            "time": "morning",
+            "district": "Trincomalee",
+            "props": {
+                "food": "breakfast",
+                "type": "traditional",
+                "price": "low"
+            }
+        },
+        {
+            "type": "destination",
+            "time": "afternoon",
+            "district": "Trincomalee",
+            "activities": "Snorkeling",
+            "props": {
+                "type": "water sport",
+                "price": "medium"
+            }
+        },
+        {
+            "type": "restaurant",
+            "time": "evening",
+            "district": "Trincomalee",
+            "props": {
+                "food": "lunch",
+                "type": "traditional",
+                "price": "low"
+            }
+        },
+        {
+            "type": "accommodation",
+            "time": "night",
+            "district": "Trincomalee",
+            "props": {
+                "type": "hotel",
+                "price": "medium"
+            }
+        }
+    ],
+    [
+        {
+            "type": "destination",
+            "time": "morning",
+            "district": "Ampara",
+            "activities": "Wildlife Safari",
+            "props": {
+                "type": "adventure",
+                "price": "medium"
+            }
+        },
+        {
+            "type": "restaurant",
+            "time": "morning",
+            "district": "Ampara",
+            "props": {
+                "food": "breakfast",
+                "type": "traditional",
+                "price": "low"
+            }
+        },
+        {
+            "type": "destination",
+            "time": "afternoon",
+            "district": "Ampara",
+            "activities": "Bird Watching",
+            "props": {
+                "type": "nature",
+                "price": "low"
+            }
+        },
+        {
+            "type": "restaurant",
+            "time": "evening",
+            "district": "Ampara",
+            "props": {
+                "food": "lunch",
+                "type": "traditional",
+                "price": "low"
+            }
+        },
+        {
+            "type": "accommodation",
+            "time": "night",
+            "district": "Ampara",
+            "props": {
+                "type": "hotel",
+                "price": "medium"
+            }
+        }
+    ],
+    [
+        {
+            "type": "destination",
+            "time": "morning",
+            "district": "Jaffna",
+            "activities": "Wildlife Safari",
+            "props": {
+                "type": "adventure",
+                "price": "medium"
+            }
+        },
+        {
+            "type": "restaurant",
+            "time": "morning",
+            "district": "Jaffna",
+            "props": {
+                "food": "breakfast",
+                "type": "traditional",
+                "price": "low"
+            }
+        },
+        {
+            "type": "destination",
+            "time": "afternoon",
+            "district": "Jaffna",
+            "activities": "Bird Watching",
+            "props": {
+                "type": "nature",
+                "price": "low"
+            }
+        },
+        {
+            "type": "restaurant",
+            "time": "evening",
+            "district": "Jaffna",
+            "props": {
+                "food": "lunch",
+                "type": "traditional",
+                "price": "low"
+            }
+        },
+        {
+            "type": "accommodation",
+            "time": "night",
+            "district": "Jaffna",
+            "props": {
+                "type": "hotel",
+                "price": "medium"
+            }
+        }
+    ]
+]
