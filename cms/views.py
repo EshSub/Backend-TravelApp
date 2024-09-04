@@ -1,6 +1,6 @@
 from rest_framework import viewsets
-from .models import Profile, EmailConfirmation, District, Province, Place, Activity, PlaceActivity, Type, Tag, Plan
-from .serializers import ProfileSerializer, EmailConfirmationSerializer, DistrictSerializer, ProvinceSerializer, PlaceSerializer, ActivitySerializer, PlaceActivitySerializer, TypeSerializer, TagSerializer, PlanSerializer
+from .models import Profile, EmailConfirmation, District, Province, Place, Activity, PlaceActivity, Type, Tag, Plan, Image
+from .serializers import ProfileSerializer, EmailConfirmationSerializer, DistrictSerializer, ProvinceSerializer, PlaceSerializer, ActivitySerializer, PlaceActivitySerializer, TypeSerializer, TagSerializer, PlanSerializer, ImageSerializer
 from math import radians, sin, cos, sqrt, atan2
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -144,8 +144,6 @@ class PlaceViewSet(viewsets.ModelViewSet):
         # Return the filtered places
         return Response(serialized_places.data)
        
-        
-
     def calculate_distance(self, lat1, lon1, lat2, lon2):
         # Haversine formula to calculate distance between two lat/lon points
         R = 6371  # Radius of the earth in km
@@ -157,7 +155,6 @@ class PlaceViewSet(viewsets.ModelViewSet):
         c = 2 * atan2(sqrt(a), sqrt(1 - a))
         distance = R * c  # Distance in km
         return distance
-
 
 class ActivityViewSet(viewsets.ModelViewSet):
     queryset = Activity.objects.all()
@@ -226,4 +223,7 @@ class PlanViewSet(viewsets.ModelViewSet):
             # If the serializer is not valid, return the errors
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
+class ImageViewSet(viewsets.ModelViewSet):
+    queryset = Image.objects.all()
+    serializer_class = ImageSerializer
+    
