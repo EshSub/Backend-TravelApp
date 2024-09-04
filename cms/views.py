@@ -110,7 +110,7 @@ class PlaceViewSet(viewsets.ModelViewSet):
         district = json_input.get("district")
         # activities = json_input.get("activities")
         # activity_type = json_input.get("props", {}).get("type")
-        # price = json_input.get("props").get("price")
+        # price = json_input.get("price")
 
         # Construct the query based on the input fields
         query = Q()
@@ -122,7 +122,7 @@ class PlaceViewSet(viewsets.ModelViewSet):
             query &= Q(district__name__icontains=district)
         
         # if activities:
-        #     query &= Q(activities__name__icontains=activities)
+        #     query &= Q(activities__activity_name__icontains=activities)
 
         # if activity_type:
         #     query &= Q(types__name__icontains=activity_type)

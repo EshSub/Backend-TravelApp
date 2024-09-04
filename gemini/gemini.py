@@ -261,10 +261,10 @@ def get_plan1(duration=7, preferred_activities=["diving", "snorkelling", "kayaki
     except Exception as e:
       return response.text, "FAILED"
 
-    final_location = final_response[-1]['area']
+    final_location = final_response[-1]['district']
     for item in final_response:
       if item['type'] == 'destination':
-        prevloc.add(item['area'] + " " + item['activities'])
+        prevloc.add(item['district'] + " " + item['activities'])
 
     plans_per_day.append(final_response)
   
