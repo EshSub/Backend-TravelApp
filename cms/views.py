@@ -168,12 +168,12 @@ class ActivityViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     filterset_fields = ["places"]
     ordering_fields = [
-        "activity_id",
-        "activity_name",
+        "id",
+        "name",
         "place_activities",
         "places",
     ]  # Specify the fields that can be used for ordering
-    ordering = ["activity_id"]  # Specify the default ordering
+    ordering = ["id"]  # Specify the default ordering
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 

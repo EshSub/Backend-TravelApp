@@ -49,7 +49,7 @@ class PlaceSerializer(serializers.ModelSerializer):
     def get_province_name(self, obj):
         return obj.province.name
     def get_activity_objects(self, obj):
-        return obj.activities.values("activity_id", "activity_name", "description")
+        return obj.activities.values("id", "name", "description")
     def get_accommodation_places_nearby(self, obj):
         return obj.accommodation_places_nearby.values("place_id", "place_name", "description")
     
