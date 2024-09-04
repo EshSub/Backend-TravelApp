@@ -13,12 +13,12 @@ class Conversation(models.Model):
     
 class Message(models.Model):
     id = models.AutoField(primary_key=True)
-    date = models.DateField()
-    time = models.TimeField()
+    date = models.DateField(auto_now_add=True, blank=True, null=True)  
+    time = models.TimeField(auto_now_add=True, blank=True, null=True)  
     conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE)
-    message = models.TextField() 
-    place = models.ForeignKey(Place, null=True, blank=True, on_delete=models.PROTECT)  
-    guide = models.ForeignKey(User, null=True, blank=True, on_delete=models.PROTECT) 
-
+    message = models.TextField()
+    place = models.ForeignKey(Place, null=True, blank=True, on_delete=models.PROTECT)
+    guide = models.ForeignKey(User, null=True, blank=True, on_delete=models.PROTECT)
+    
     def __str__(self):
         return f"Message {self.id} in Conversation {self.conversation} on {self.date} at {self.time}"
