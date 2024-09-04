@@ -22,7 +22,7 @@ class ConversationViewSet(viewsets.ModelViewSet):
 class MessageViewSet(viewsets.ModelViewSet):
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
-    filterset_fields = ["conversation_id"]
+    filterset_fields = ["conversation"]
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
