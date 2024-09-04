@@ -53,7 +53,7 @@ class Place(TimeStampMixin):
     data = models.JSONField(null=True, blank=True)
     rating = models.FloatField(null=True, blank=True)
     header_image = models.ForeignKey(Image, on_delete=models.PROTECT, null=True, blank=True)
-    images = models.ManyToManyField(Image, related_name="places")
+    images = models.ManyToManyField(Image, related_name="places", blank=True,null=True)
 
     def __str__(self):
         return self.place_name
@@ -61,8 +61,8 @@ class Place(TimeStampMixin):
 # column1=place_id,column2=place_name,column3=description,column4=district_id,column5=province_id,column6=ticket_price,column7=location,column8=latitude,column9=longitude,column10=how_to_visit,,column11=best_time_to_visit_in_year,,column12=data
 
 class Activity(TimeStampMixin):
-    activity_id = models.AutoField(primary_key=True)
-    activity_name = models.CharField(max_length=255)
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255)
     description = models.TextField(null=True, blank=True)
     data = models.JSONField(null=True, blank=True)
 # column1=activity_id,column2=activity_name,column3=description,column4=data
