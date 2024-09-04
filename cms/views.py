@@ -106,21 +106,21 @@ class PlaceViewSet(viewsets.ModelViewSet):
                 }
             }
         
-        # place_type = json_input.get("type")
+        place_type = json_input.get("type")
         district = json_input.get("district")
-                # activities = json_input.get("activities")
+        # activities = json_input.get("activities")
         # activity_type = json_input.get("props", {}).get("type")
         # price = json_input.get("props").get("price")
 
         # Construct the query based on the input fields
         query = Q()
 
-        # if place_type:
-        #     query &= Q(types__name__icontains=place_type)
-        
-        # if district:
-        #     query &= Q(district__name__icontains=district)
+        if place_type:
+            query &= Q(types__name__icontains=place_type)
 
+        if district:
+            query &= Q(district__name__icontains=district)
+        
         # if activities:
         #     query &= Q(activities__name__icontains=activities)
 
@@ -134,9 +134,6 @@ class PlaceViewSet(viewsets.ModelViewSet):
         #         query &= Q(ticket_price__gte=10, ticket_price__lt=50)  #  threshold for 'medium' price
         #     elif price == "high":
         #         query &= Q(ticket_price__gte=50)  #  threshold for 'high' price
-
-        if district:
-            query &= Q(district__name__icontains=district)
 
         # Filter the places based on the constructed query
         filtered_places = Place.objects.filter(query).distinct()
