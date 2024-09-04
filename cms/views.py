@@ -16,6 +16,9 @@ from rest_framework import permissions
 from django.contrib.auth.models import User
 from rest_framework import status
 
+from django.db.models import Q
+
+
 
 class ProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
@@ -87,6 +90,64 @@ class PlaceViewSet(viewsets.ModelViewSet):
                     )
 
         return Response(nearby_accommodations)
+    
+    @action(detail=False, methods=["get"])
+    def get_places(self, request, pk=None):
+    
+        json_input = request.query_params
+        SampleInput = {
+            "type": "destination",
+            "time": "morning",
+            "district": "Galle",
+            "activities": "Wildlife Safari",
+            "props": {
+                "type": "adventure",
+                "price": "medium"
+                }
+            }
+        
+        # place_type = json_input.get("type")
+        district = json_input.get("district")
+                # activities = json_input.get("activities")
+        # activity_type = json_input.get("props", {}).get("type")
+        # price = json_input.get("props").get("price")
+
+        # Construct the query based on the input fields
+        query = Q()
+
+        # if place_type:
+        #     query &= Q(types__name__icontains=place_type)
+        
+        # if district:
+        #     query &= Q(district__name__icontains=district)
+
+        # if activities:
+        #     query &= Q(activities__name__icontains=activities)
+
+        # if activity_type:
+        #     query &= Q(types__name__icontains=activity_type)
+
+        # if price:
+        #     if price == "low":
+        #         query &= Q(ticket_price__lt=10)  #  threshold for 'low' price
+        #     elif price == "medium":
+        #         query &= Q(ticket_price__gte=10, ticket_price__lt=50)  #  threshold for 'medium' price
+        #     elif price == "high":
+        #         query &= Q(ticket_price__gte=50)  #  threshold for 'high' price
+
+        if district:
+            query &= Q(district__name__icontains=district)
+
+        # Filter the places based on the constructed query
+        filtered_places = Place.objects.filter(query).distinct()
+
+        # Serialize the result
+        serialized_places = PlaceSerializer(filtered_places, many=True)
+
+        # Return the filtered places
+        return Response(serialized_places.data)
+       
+        
 
     def calculate_distance(self, lat1, lon1, lat2, lon2):
         # Haversine formula to calculate distance between two lat/lon points
