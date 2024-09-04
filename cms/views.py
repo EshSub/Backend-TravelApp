@@ -97,14 +97,14 @@ class PlaceViewSet(viewsets.ModelViewSet):
         json_input = request.query_params
         SampleInput = {
             "type": "destination",
-            "time": "morning",
-            "district": "Galle",
-            "activities": "Wildlife Safari",
+            "time": "afternoon",
+            "district": "Polonnaruwa",
+            "activities": "Bird Watching",
+            "price": "low",
             "props": {
-                "type": "adventure",
-                "price": "medium"
-                }
+                "type": "nature"
             }
+        }
         
         place_type = json_input.get("type")
         district = json_input.get("district")
