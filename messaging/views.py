@@ -18,6 +18,10 @@ class ConversationViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)            
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+    def get_queryset(self):
+        user = self.request.user
+        return Conversation.objects.filter(user=user)
 
 class MessageViewSet(viewsets.ModelViewSet):
     queryset = Message.objects.all()
