@@ -54,8 +54,8 @@ class MessageViewSet(viewsets.ModelViewSet):
                 time=datetime.now().time(),  # Current time
                 message=ai_response,
             )
-
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+        return Response(ai_response, status=status.HTTP_201_CREATED)
 
     def create_conversation_json(self, messages):
         conversation_history = []
