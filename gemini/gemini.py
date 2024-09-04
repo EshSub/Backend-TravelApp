@@ -194,7 +194,7 @@ def get_plan1(duration=7, preferred_activities=["diving", "snorkelling", "kayaki
     Description: "{description}"
     
     The output format must follow these rules:
-    - Types must be one of ['destination', 'food', 'accommodation']
+    - Types must be one of ['destination', 'restaurant', 'accommodation']
     - Time must be one of ['morning', 'evening', 'night']
     - District must be a district in Sri Lanka
     - Activities must be chosen from: ['Fishing', 'Photography Tour', 'Meditation Retreat', 'Yoga', 'Cycling', 'Kayaking', 'Temple Visit', 'Cooking Classes', 'Shopping', 'Pilgrimage', 'Beach Relaxation', 'Tea Plantation Tour', 'Scuba Diving', 'Snorkeling', 'Bird Watching', 'Cultural Tour', 'Hiking', 'Wildlife Safari', 'Whale Watching', 'Surfing']
@@ -204,7 +204,7 @@ def get_plan1(duration=7, preferred_activities=["diving", "snorkelling", "kayaki
     Example output:
     [
     {{
-      "type": "food",
+      "type": "restaurant",
       "time": "morning",
       "district": "Galle",
       "props": {{
@@ -224,7 +224,7 @@ def get_plan1(duration=7, preferred_activities=["diving", "snorkelling", "kayaki
       }}
     }},
     {{
-      "type": "food",
+      "type": "restaurant",
       "time": "evening",
       "district": "Galle",
       "props": {{
