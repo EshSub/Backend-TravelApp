@@ -196,9 +196,10 @@ def get_plan1(duration=7, preferred_activities=["diving", "snorkelling", "kayaki
     The output format must follow these rules:
     - Types must be one of ['destination', 'restaurant', 'accommodation']
     - Time must be one of ['morning', 'evening', 'night']
-    - District must be a district in Sri Lanka
+    - Give only Colombo, Galle, Mathara, Kandy, Nuwara Eliya, Anuradhapura, Polonnaruwa, Trincomalee, or Jaffna as District
     - Activities must be chosen from: ['Fishing', 'Photography Tour', 'Meditation Retreat', 'Yoga', 'Cycling', 'Kayaking', 'Temple Visit', 'Cooking Classes', 'Shopping', 'Pilgrimage', 'Beach Relaxation', 'Tea Plantation Tour', 'Scuba Diving', 'Snorkeling', 'Bird Watching', 'Cultural Tour', 'Hiking', 'Wildlife Safari', 'Whale Watching', 'Surfing']
-    - Props should include 'price' (one of ['low', 'medium', 'high']) and 'type' (based on the nature of the activity).
+    - Price should be taken from one of ['low', 'medium', 'high']
+    - Props should include 'type' (based on the nature of the activity).
     
     Please note that the output format must be a JSON string.
     Example output:
@@ -207,10 +208,10 @@ def get_plan1(duration=7, preferred_activities=["diving", "snorkelling", "kayaki
       "type": "restaurant",
       "time": "morning",
       "district": "Galle",
+      "price": "medium",
       "props": {{
         "food": "breakfast",
-        "type": "traditional",
-        "price": "low"
+        "type": "traditional"
       }}
     }},
     {{
@@ -218,19 +219,20 @@ def get_plan1(duration=7, preferred_activities=["diving", "snorkelling", "kayaki
       "time": "morning",
       "district": "Galle",
       "activities": "Surfing",
+      "price": "low",
       "props": {{
-        "type": "adventure",
-        "price": "medium"
+        "type": "adventure"
+    
       }}
     }},
     {{
       "type": "restaurant",
       "time": "evening",
       "district": "Galle",
+      "price": "medium",
       "props": {{
         "food": "lunch",
         "type": "traditional",
-        "price": "low"
       }}
     }},
     {{
@@ -238,18 +240,18 @@ def get_plan1(duration=7, preferred_activities=["diving", "snorkelling", "kayaki
       "time": "afternoon",
       "district": "Galle",
       "activities": "Kayaking",
+      "price": "low",
       "props": {{
         "type": "adventure",
-        "price": "medium"
       }}
     }},
     {{
       "type": "accommodation",
       "time": "night",
       "district": "Galle",
+      "price": "medium",
       "props": {{
         "type": "hotel",
-        "price": "medium"
       }}
     }}
     ]
@@ -261,10 +263,10 @@ def get_plan1(duration=7, preferred_activities=["diving", "snorkelling", "kayaki
     except Exception as e:
       return response.text, "FAILED"
 
-    final_location = final_response[-1]['area']
+    final_location = final_response[-1]['district']
     for item in final_response:
       if item['type'] == 'destination':
-        prevloc.add(item['area'] + " " + item['activities'])
+        prevloc.add(item['district'] + " " + item['activities'])
 
     plans_per_day.append(final_response)
   
