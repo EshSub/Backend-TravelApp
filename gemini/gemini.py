@@ -142,6 +142,137 @@ def get_plan(duration=7, preferred_activities=["diving", "snorkelling", "kayakin
 
   return plans_per_day, "SUCCESS"
 
+# print(========================================================================)
+
+def format_to_json_list(input_data):
+    # Ensure that the input is a proper list of dictionaries (already structured as JSON-like)
+    try:
+        # Convert the input data to JSON format with proper indentation for readability
+        json_output = json.dumps(input_data, indent=4)
+        return json_output
+    except Exception as e:
+        return str(e)
+
+def get_plan1(duration=7, preferred_activities=["diving", "snorkelling", "kayaking", "sea bathing", "boat rides"], description="I want to do some water activities around downsouth area"):
+    
+  # Create the model
+  generation_config = {
+    "temperature": 0.55,
+    "top_p": 0.95,
+    "top_k": 64,
+    "max_output_tokens": 8192,
+  }
+
+  model = genai.GenerativeModel(
+    model_name="gemini-1.5-flash",
+    generation_config=generation_config,
+  )
+
+  day = 1
+  prevloc = set()
+  final_location = "Colombo"
+  duration = 5
+  preferred_activities = ["animals"]
+  description = "I like anything to do with animals"
+
+  chat = model.start_chat(history=[])
+
+  plans_per_day = []
+  for i in range(1, duration+1):
+    
+    response = chat.send_message([
+    f"""
+    input: I am on a trip to Sri Lanka. This is day {i}. Provide a trip plan for today based on the User Inputs. 
+    First, identify a pattern of my interests based on the preferred activities and description, then find unique activities to do each day, ensuring they do not repeat previous activities. 
+    Ensure that locations cover most districts of Sri Lanka. 
+    Stick strictly to the output format of a JSON string.
+
+    User Inputs: 
+    Previous locations: {prevloc}
+    Last location: {final_location}
+    Preferred activities: {preferred_activities}
+    Description: "{description}"
+    
+    The output format must follow these rules:
+    - Types must be one of ['destination', 'food', 'accommodation']
+    - Time must be one of ['morning', 'evening', 'night']
+    - District must be a district in Sri Lanka
+    - Activities must be chosen from: ['Fishing', 'Photography Tour', 'Meditation Retreat', 'Yoga', 'Cycling', 'Kayaking', 'Temple Visit', 'Cooking Classes', 'Shopping', 'Pilgrimage', 'Beach Relaxation', 'Tea Plantation Tour', 'Scuba Diving', 'Snorkeling', 'Bird Watching', 'Cultural Tour', 'Hiking', 'Wildlife Safari', 'Whale Watching', 'Surfing']
+    - Props should include 'price' (one of ['low', 'medium', 'high']) and 'type' (based on the nature of the activity).
+    
+    Please note that the output format must be a JSON string.
+    Example output:
+    [
+    {{
+      "type": "food",
+      "time": "morning",
+      "district": "Galle",
+      "props": {{
+        "food": "breakfast",
+        "type": "traditional",
+        "price": "low"
+      }}
+    }},
+    {{
+      "type": "destination",
+      "time": "morning",
+      "district": "Galle",
+      "activities": "Surfing",
+      "props": {{
+        "type": "adventure",
+        "price": "medium"
+      }}
+    }},
+    {{
+      "type": "food",
+      "time": "evening",
+      "district": "Galle",
+      "props": {{
+        "food": "lunch",
+        "type": "traditional",
+        "price": "low"
+      }}
+    }},
+    {{
+      "type": "destination",
+      "time": "afternoon",
+      "district": "Galle",
+      "activities": "Kayaking",
+      "props": {{
+        "type": "adventure",
+        "price": "medium"
+      }}
+    }},
+    {{
+      "type": "accommodation",
+      "time": "night",
+      "district": "Galle",
+      "props": {{
+        "type": "hotel",
+        "price": "medium"
+      }}
+    }}
+    ]
+    """
+    ])
+    
+    try:
+      final_response = json.loads(response.text.strip()[8:-3])
+    except Exception as e:
+      return response.text, "FAILED"
+
+    final_location = final_response[-1]['area']
+    for item in final_response:
+      if item['type'] == 'destination':
+        prevloc.add(item['area'] + " " + item['activities'])
+
+    plans_per_day.append(final_response)
+  
+  plans_per_day = format_to_json_list(plans_per_day)
+
+  return plans_per_day, "SUCCESS"
+
+
 def chat_ai_response(history):
     if not history:
         return "No message received."
@@ -195,7 +326,7 @@ def chat_ai_response1(history):
         return "An error occurred while generating the response."
 
 if __name__ == "__main__":
-    plans, status = get_plan()
+    plans, status = get_plan1()
     print(plans, status)
     # print(chat_ai_response(["Hello", "How are you?"]))
     # print(chat_ai_response1(["Hello", "How are you?"]))
