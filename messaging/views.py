@@ -56,7 +56,7 @@ class MessageViewSet(viewsets.ModelViewSet):
             message=ai_response,
         )
 
-        return Response({"res_message": model_to_dict(res_message), 'message': model_to_dict(message)}, status=status.HTTP_201_CREATED)
+        return Response({"res_message": MessageSerializer(res_message).data, 'message': MessageSerializer(message).data}, status=status.HTTP_201_CREATED)
 
     def create_conversation_json(self, messages):
         conversation_history = []
