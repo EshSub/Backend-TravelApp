@@ -67,6 +67,8 @@ class Activity(TimeStampMixin):
     name = models.CharField(max_length=255)
     description = models.TextField(null=True, blank=True)
     data = models.JSONField(null=True, blank=True)
+    imageUrl = models.CharField(max_length=1000, null=True, blank=True)
+
 # column1=activity_id,column2=activity_name,column3=description,column4=data
 class PlaceActivity(TimeStampMixin):
     id = models.AutoField(primary_key=True)
