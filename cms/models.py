@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 class Profile(models.Model):
     user = models.OneToOneField(User,related_name="profile", on_delete=models.CASCADE)
     is_verified = models.BooleanField(default=False)
+    preferred_activities = models.ManyToManyField('Activity', related_name='user_preferred_activities', blank=True)
+    district = models.ForeignKey('District', null=True, blank=True, on_delete=models.PROTECT)
 
 class TimeStampMixin(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
