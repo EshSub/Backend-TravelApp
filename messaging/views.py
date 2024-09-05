@@ -29,6 +29,7 @@ class MessageViewSet(viewsets.ModelViewSet):
     filterset_fields = ["conversation"]
 
     def create(self, request, *args, **kwargs):
+        # print("request.data", request.data)
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -43,9 +44,10 @@ class MessageViewSet(viewsets.ModelViewSet):
         message_history = self.create_conversation_json(messages)
 
         conversation = Conversation.objects.get(id=conversation_id)  # Corrected field reference
-        print("conversation", conversation)
+        # print("conversation", conversation)
 
         if conversation.isAI:
+            # print("AI conversation")
             ai_response = chat_ai_response1(message_history)
 
             Message.objects.create(
@@ -54,8 +56,12 @@ class MessageViewSet(viewsets.ModelViewSet):
                 time=datetime.now().time(),  # Current time
                 message=ai_response,
             )
-    
-        return Response(ai_response, status=status.HTTP_201_CREATED)
+        
+            # print("AI response", ai_response)
+            return Response(ai_response, status=status.HTTP_201_CREATED)
+        else:
+            # print("User conversation")
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def create_conversation_json(self, messages):
         conversation_history = []

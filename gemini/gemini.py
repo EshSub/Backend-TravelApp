@@ -16,9 +16,9 @@ import google.generativeai as genai
 env = environ.Env()
 
 environ.Env.read_env()
-# gemini_api_key = env("GEMINI_API_KEY")
+gemini_api_key = env("GEMINI_API_KEY")
 
-genai.configure(api_key="AIzaSyDJh_yYbR-2LzxMvyhM03h90qXHdooGTN8")
+genai.configure(api_key=gemini_api_key)
 
 def get_plan(duration=7, preferred_activities=["diving", "snorkelling", "kayaking", "sea bathing", "boat rides"], description="I want to do some water activities around downsouth area"):
     
