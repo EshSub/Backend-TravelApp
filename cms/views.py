@@ -1,6 +1,30 @@
 from rest_framework import viewsets
-from .models import Profile, EmailConfirmation, District, Province, Place, Activity, PlaceActivity, Type, Tag, Plan, Image
-from .serializers import ProfileSerializer, EmailConfirmationSerializer, DistrictSerializer, ProvinceSerializer, PlaceSerializer, ActivitySerializer, PlaceActivitySerializer, TypeSerializer, TagSerializer, PlanSerializer, ImageSerializer
+from .models import (
+    Profile,
+    EmailConfirmation,
+    District,
+    Province,
+    Place,
+    Activity,
+    PlaceActivity,
+    Type,
+    Tag,
+    Plan,
+    Image,
+)
+from .serializers import (
+    ProfileSerializer,
+    EmailConfirmationSerializer,
+    DistrictSerializer,
+    ProvinceSerializer,
+    PlaceSerializer,
+    ActivitySerializer,
+    PlaceActivitySerializer,
+    TypeSerializer,
+    TagSerializer,
+    PlanSerializer,
+    ImageSerializer,
+)
 from math import radians, sin, cos, sqrt, atan2
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -19,7 +43,6 @@ from rest_framework import status
 from django.db.models import Q
 
 
-
 class ProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
@@ -36,7 +59,7 @@ class EmailConfirmationViewSet(viewsets.ModelViewSet):
                 "Test email",
                 "This is a test email",
                 "touracross@gmail.com",
-                ["eshans2000@gmail.com"]
+                ["eshans2000@gmail.com"],
             ),
         )
         return Response({"message": res})
@@ -90,10 +113,10 @@ class PlaceViewSet(viewsets.ModelViewSet):
                     )
 
         return Response(nearby_accommodations)
-    
+
     @action(detail=False, methods=["get"])
     def get_places(self, request, pk=None):
-    
+
         json_input = request.query_params
         SampleInput = {
             "type": "destination",
@@ -101,11 +124,9 @@ class PlaceViewSet(viewsets.ModelViewSet):
             "district": "Polonnaruwa",
             "activities": "Bird Watching",
             "price": "low",
-            "props": {
-                "type": "nature"
-            }
+            "props": {"type": "nature"},
         }
-        
+
         place_type = json_input.get("type")
         district = json_input.get("district")
         # activities = json_input.get("activities")
@@ -120,30 +141,31 @@ class PlaceViewSet(viewsets.ModelViewSet):
 
         if district:
             query &= Q(district__name__icontains=district)
-        
-        # if activities:
-        #     query &= Q(activities__name__icontains=activities)
 
-        # if activity_type:
-        #     query &= Q(types__name__icontains=activity_type)
+            # if activities:
+            #     query &= Q(activities__name__icontains=activities)
 
-        # if price:
-        #     if price == "low":
-        #         query &= Q(ticket_price__lt=10)  #  threshold for 'low' price
-        #     elif price == "medium":
-        #         query &= Q(ticket_price__gte=10, ticket_price__lt=50)  #  threshold for 'medium' price
-        #     elif price == "high":
-        #         query &= Q(ticket_price__gte=50)  #  threshold for 'high' price
+            # if activity_type:
+            #     query &= Q(types__name__icontains=activity_type)
 
-        # Filter the places based on the constructed query
-        filtered_places = Place.objects.filter(query).distinct()
+            # if price:
+            #     if price == "low":
+            #         query &= Q(ticket_price__lt=10)  #  threshold for 'low' price
+            #     elif price == "medium":
+            #         query &= Q(ticket_price__gte=10, ticket_price__lt=50)  #  threshold for 'medium' price
+            #     elif price == "high":
+            #         query &= Q(ticket_price__gte=50)  #  threshold for 'high' price
+
+            # Filter the places based on the constructed query
+            # filtered_places = Place.objects.filter(query).distinct()
+        filtered_place = Place.objects.filter(query).order_by("?").first()
 
         # Serialize the result
-        serialized_places = PlaceSerializer(filtered_places, many=True)
+        # serialized_places = PlaceSerializer(filtered_places, many=True)
 
         # Return the filtered places
-        return Response(serialized_places.data)
-       
+        return Response(PlaceSerializer(filtered_place).data)
+
     def calculate_distance(self, lat1, lon1, lat2, lon2):
         # Haversine formula to calculate distance between two lat/lon points
         R = 6371  # Radius of the earth in km
@@ -155,6 +177,7 @@ class PlaceViewSet(viewsets.ModelViewSet):
         c = 2 * atan2(sqrt(a), sqrt(1 - a))
         distance = R * c  # Distance in km
         return distance
+
 
 class ActivityViewSet(viewsets.ModelViewSet):
     queryset = Activity.objects.all()
@@ -185,6 +208,7 @@ class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
 
+
 class PlanViewSet(viewsets.ModelViewSet):
     queryset = Plan.objects.all()
     serializer_class = PlanSerializer
@@ -195,25 +219,31 @@ class PlanViewSet(viewsets.ModelViewSet):
 
         input_data = {
             "duration": request_data.get("duration", 2),
-            "preferred_activities": request_data.get("preferred_activities", ["diving", "snorkelling", "kayaking", "sea bathing", "hiking"]),	
-            "description": request_data.get("description", "I want to do some water activities around downsouth area")	
+            "preferred_activities": request_data.get(
+                "preferred_activities",
+                ["diving", "snorkelling", "kayaking", "sea bathing", "hiking"],
+            ),
+            "description": request_data.get(
+                "description",
+                "I want to do some water activities around downsouth area",
+            ),
         }
-        
+
         # Extract data from request with default values
         days = input_data.get("duration")
         activities = input_data.get("preferred_activities")
         description = input_data.get("description")
-        
+
         # Call your custom function to get the plan
         created_plan, message = get_plan(days, activities, description)
-        
+
         # Prepare data for the serializer
         plan_data = {
             "user": user.id,
             "Input_data": input_data,
-            "created_plan": created_plan
+            "created_plan": created_plan,
         }
-        
+
         # Create a serializer instance with data to validate and save the plan
         serializer = self.get_serializer(data=plan_data)
         if serializer.is_valid():
@@ -223,7 +253,7 @@ class PlanViewSet(viewsets.ModelViewSet):
             # If the serializer is not valid, return the errors
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 class ImageViewSet(viewsets.ModelViewSet):
     queryset = Image.objects.all()
     serializer_class = ImageSerializer
-    
