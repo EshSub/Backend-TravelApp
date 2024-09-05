@@ -1,14 +1,8 @@
 from django.contrib.auth.models import User
-from rest_framework import serializers
+
+from django.forms import model_to_dict
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['username', 'email', 'first_name', 'last_name']  # Customize fields as needed
-
-
-
+from cms.models import Profile
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
@@ -24,6 +18,12 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         data = super().validate(attrs)
         
         # Add the serialized user data to the response
-        data['user'] = UserSerializer(self.user).data
+        data['user'] = model_to_dict(self.user, fields=['id', 'username', 'email', 'first_name', 'last_name'])
 
+        try:
+            profile = Profile.objects.get(user=self.user)
+            data['profile'] = model_to_dict(profile)
+        except Profile.DoesNotExist:
+            data['profile'] = None
+            
         return data
