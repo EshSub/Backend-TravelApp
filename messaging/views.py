@@ -51,9 +51,13 @@ class MessageViewSet(viewsets.ModelViewSet):
 
         conversation = Conversation.objects.get(id=conversation_id)  # Corrected field reference
         # print("conversation", conversation)
-        place = Place.objects.get(place_id=place_id)
-        # print("place", place)
-        ai_response = chat_ai_response1(message_history, place)
+        if(place_id):
+            place = Place.objects.get(place_id=place_id)
+            # print("place", place)
+            ai_response = chat_ai_response1(message_history, place)
+
+        else:
+            ai_response = chat_ai_response1(message_history, None)
         # print("ai_response", ai_response)
 
         res_message = Message.objects.create(

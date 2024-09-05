@@ -20,43 +20,54 @@ gemini_api_key = env("GEMINI_API_KEY")
 
 genai.configure(api_key=gemini_api_key)
 
-def get_plan(duration=7, preferred_activities=["diving", "snorkelling", "kayaking", "sea bathing", "boat rides"], description="I want to do some water activities around downsouth area"):
-    
-  # Create the model
-  # See https://ai.google.dev/api/python/google/generativeai/GenerativeModel
-  generation_config = {
-    "temperature": 0.55,
-    "top_p": 0.95,
-    "top_k": 64,
-    "max_output_tokens": 8192,
-    # "response_mime_type": "text/plain",
-  }
 
-  model = genai.GenerativeModel(
-    model_name="gemini-1.5-flash",
-    generation_config=generation_config,
-    # safety_settings = Adjust safety settings
-    # See https://ai.google.dev/gemini-api/docs/safety-settings
-  )
+def get_plan(
+    duration=7,
+    preferred_activities=[
+        "diving",
+        "snorkelling",
+        "kayaking",
+        "sea bathing",
+        "boat rides",
+    ],
+    description="I want to do some water activities around downsouth area",
+):
 
+    # Create the model
+    # See https://ai.google.dev/api/python/google/generativeai/GenerativeModel
+    generation_config = {
+        "temperature": 0.55,
+        "top_p": 0.95,
+        "top_k": 64,
+        "max_output_tokens": 8192,
+        # "response_mime_type": "text/plain",
+    }
 
-  day = 1
-  prevloc = set()
-  final_location = "Colombo"
-  duration = 5
-  # preferred_activities = ["diving", "snorkelling", "kayaking", "sea bathing", "boat rides"]
-  preferred_activities = ["animals"]
-  description = "I like anything to do with animals"
+    model = genai.GenerativeModel(
+        model_name="gemini-1.5-flash",
+        generation_config=generation_config,
+        # safety_settings = Adjust safety settings
+        # See https://ai.google.dev/gemini-api/docs/safety-settings
+    )
 
-  chat = model.start_chat(history=[])
+    day = 1
+    prevloc = set()
+    final_location = "Colombo"
+    duration = 5
+    # preferred_activities = ["diving", "snorkelling", "kayaking", "sea bathing", "boat rides"]
+    preferred_activities = ["animals"]
+    description = "I like anything to do with animals"
 
-  plans_per_day = []
-  for i in range(1, duration+1):
-    
-    response = chat.send_message([
-    """input: I am on a trip to Sri Lanka. This is day {i}. Give me a trip plan for today based on the User Inputs. First identify a pattern of my intrest using the preffered activities and the description and find unique activities for me to do each day checking the previous activities done covering most areas of Sri Lanka. Please take care to give the area as a district of Sri Lanka. Strictly adhere to the given output format of JSON string.
-    User Input: \n {general: {Previous locations :[ ]} , Last location: Colombo , preferred_activities: [diving, snorkelling,kayaking, sea bathing, boat rides] , description: "I want to do some water activities around downsouth area"}"""	,
-    """output:
+    chat = model.start_chat(history=[])
+
+    plans_per_day = []
+    for i in range(1, duration + 1):
+
+        response = chat.send_message(
+            [
+                """input: I am on a trip to Sri Lanka. This is day {i}. Give me a trip plan for today based on the User Inputs. First identify a pattern of my intrest using the preffered activities and the description and find unique activities for me to do each day checking the previous activities done covering most areas of Sri Lanka. Please take care to give the area as a district of Sri Lanka. Strictly adhere to the given output format of JSON string.
+    User Input: \n {general: {Previous locations :[ ]} , Last location: Colombo , preferred_activities: [diving, snorkelling,kayaking, sea bathing, boat rides] , description: "I want to do some water activities around downsouth area"}""",
+                """output:
     [
     {
       "type": "food",
@@ -118,31 +129,34 @@ def get_plan(duration=7, preferred_activities=["diving", "snorkelling", "kayakin
       }
     }
   ]""",
-    f"""input: I am on a trip to Sri Lanka. This is day {i}. Give me a trip plan for today based on the User Inputs. First identify a pattern of my intrest using the preffered activities and the description and find unique activities for me to do each day checking the previous activities done covering most areas of Sri Lanka. Strictly adhere to the given output format of JSON string.
+                f"""input: I am on a trip to Sri Lanka. This is day {i}. Give me a trip plan for today based on the User Inputs. First identify a pattern of my intrest using the preffered activities and the description and find unique activities for me to do each day checking the previous activities done covering most areas of Sri Lanka. Strictly adhere to the given output format of JSON string.
     User Input: \n Previous locations : {prevloc} , Last location: {final_location} , preferred_activities: {preferred_activities} , description: "{description}" 
     """,
-    "output:",
-    ])
-    # print('```' == response.text[-3:])
-    # print(response.text)
-    try:
-      final_response = json.loads(response.text.strip()[8:-3])
-    except Exception as e:
-      return response.text,"FAILED"
-    final_location = final_response[-1]['area']
-    for item in final_response:
-      if item['type'] == 'destination':
-        prevloc.add(item['area']+" "+item['activities'])
+                "output:",
+            ]
+        )
+        # print('```' == response.text[-3:])
+        # print(response.text)
+        try:
+            final_response = json.loads(response.text.strip()[8:-3])
+        except Exception as e:
+            return response.text, "FAILED"
+        final_location = final_response[-1]["area"]
+        for item in final_response:
+            if item["type"] == "destination":
+                prevloc.add(item["area"] + " " + item["activities"])
 
-    plans_per_day.append(final_response)
-    # print(final_response)
-    # print(final_location)
-    # print(prevloc)
-    # # print(response.text)
+        plans_per_day.append(final_response)
+        # print(final_response)
+        # print(final_location)
+        # print(prevloc)
+        # # print(response.text)
 
-  return plans_per_day, "SUCCESS"
+    return plans_per_day, "SUCCESS"
+
 
 # print(========================================================================)
+
 
 def format_to_json_list(input_data):
     # Ensure that the input is a proper list of dictionaries (already structured as JSON-like)
@@ -153,35 +167,47 @@ def format_to_json_list(input_data):
     except Exception as e:
         return str(e)
 
-def get_plan1(duration=7, preferred_activities=["diving", "snorkelling", "kayaking", "sea bathing", "boat rides"], description="I want to do some water activities around downsouth area"):
-    
-  # Create the model
-  generation_config = {
-    "temperature": 0.55,
-    "top_p": 0.95,
-    "top_k": 64,
-    "max_output_tokens": 8192,
-  }
 
-  model = genai.GenerativeModel(
-    model_name="gemini-1.5-flash",
-    generation_config=generation_config,
-  )
+def get_plan1(
+    duration=7,
+    preferred_activities=[
+        "diving",
+        "snorkelling",
+        "kayaking",
+        "sea bathing",
+        "boat rides",
+    ],
+    description="I want to do some water activities around downsouth area",
+):
 
-  day = 1
-  prevloc = set()
-  final_location = "Colombo"
-  duration = 5
-  preferred_activities = ["animals"]
-  description = "I like anything to do with animals"
+    # Create the model
+    generation_config = {
+        "temperature": 0.55,
+        "top_p": 0.95,
+        "top_k": 64,
+        "max_output_tokens": 8192,
+    }
 
-  chat = model.start_chat(history=[])
+    model = genai.GenerativeModel(
+        model_name="gemini-1.5-flash",
+        generation_config=generation_config,
+    )
 
-  plans_per_day = []
-  for i in range(1, duration+1):
-    
-    response = chat.send_message([
-    f"""
+    day = 1
+    prevloc = set()
+    final_location = "Colombo"
+    duration = 5
+    preferred_activities = ["animals"]
+    description = "I like anything to do with animals"
+
+    chat = model.start_chat(history=[])
+
+    plans_per_day = []
+    for i in range(1, duration + 1):
+
+        response = chat.send_message(
+            [
+                f"""
     input: I am on a trip to Sri Lanka. This is day {i}. Provide a trip plan for today based on the User Inputs. 
     First, identify a pattern of my interests based on the preferred activities and description, then find unique activities to do each day, ensuring they do not repeat previous activities. 
     Ensure that locations cover most districts of Sri Lanka. 
@@ -266,29 +292,30 @@ def get_plan1(duration=7, preferred_activities=["diving", "snorkelling", "kayaki
     }}
     ]
     """
-    ])
-    
-    try:
-      final_response = json.loads(response.text.strip()[8:-3])
-    except Exception as e:
-      return response.text, "FAILED"
+            ]
+        )
 
-    final_location = final_response[-1]['district']
-    for item in final_response:
-      if item['type'] == 'destination':
-        prevloc.add(item['district'] + " " + item['activities'])
+        try:
+            final_response = json.loads(response.text.strip()[8:-3])
+        except Exception as e:
+            return response.text, "FAILED"
 
-    plans_per_day.append(final_response)
-  
-  plans_per_day = format_to_json_list(plans_per_day)
+        final_location = final_response[-1]["district"]
+        for item in final_response:
+            if item["type"] == "destination":
+                prevloc.add(item["district"] + " " + item["activities"])
 
-  return plans_per_day, "SUCCESS"
+        plans_per_day.append(final_response)
+
+    plans_per_day = format_to_json_list(plans_per_day)
+
+    return plans_per_day, "SUCCESS"
 
 
 def chat_ai_response(history):
     if not history:
         return "No message received."
-    
+
     generation_config = {
         "temperature": 0.55,
         "top_p": 0.95,
@@ -311,10 +338,11 @@ def chat_ai_response(history):
     response = chat_session.send_message(history)
     return response.text
 
+
 def chat_ai_response1(history, place):
     if not history:
         return "No message received."
-    
+
     generation_config = {
         "temperature": 0.55,
         "top_p": 0.95,
@@ -332,11 +360,18 @@ def chat_ai_response1(history, place):
 
         # print("place", place)
         chat_session = model.start_chat()
-        response = chat_session.send_message(f"This question is mostly based on this place: {place}. Give the answer to the first question: {history[0]}, If possible try to get context from other questions and answers in this list {history}. Only give the answer to the first question, nothing else. If the context if remaining questions does not help, just give a general answer to the first question.")
+        place_part = (
+            f"This question is mostly based on this place: {place}." if place else ""
+        )
+        response = chat_session.send_message(
+            place_part
+            + f"Give the answer to the first question: {history[0]}, If possible try to get context from other questions and answers in this list {history}. Only give the answer to the first question, nothing else. If the context if remaining questions does not help, just give a general answer to the first question."
+        )
         return response.text
     except Exception as e:
         print("An error occurred:", e)
         return "An error occurred while generating the response."
+
 
 if __name__ == "__main__":
     plans, status = get_plan1()
