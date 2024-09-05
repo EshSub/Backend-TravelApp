@@ -40,6 +40,7 @@ class PlaceSerializer(serializers.ModelSerializer):
     province_name = serializers.SerializerMethodField()
     activity_objects = serializers.SerializerMethodField()
     accommodation_places_nearby = serializers.SerializerMethodField()
+    header_image_url = serializers.SerializerMethodField()
     class Meta:
         model = Place
         fields = '__all__'
@@ -52,6 +53,12 @@ class PlaceSerializer(serializers.ModelSerializer):
         return obj.activities.values("id", "name", "description", "imageUrl")
     def get_accommodation_places_nearby(self, obj):
         return obj.accommodation_places_nearby.values("place_id", "place_name", "description")
+
+    def get_header_image_url(self, obj):
+        return obj.header_image.url if obj.header_image else None
+
+    def get_images(self, obj):
+        return obj.images.values("url")
     
 class TypeSerializer(serializers.ModelSerializer):
     class Meta:
