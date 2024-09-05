@@ -15,10 +15,9 @@ import google.generativeai as genai
 
 env = environ.Env()
 
-# environ.Env.read_env()
-# gemini_api_key = env("GEMINI_API_KEY")
+environ.Env.read_env()
+gemini_api_key = env("GEMINI_API_KEY")
 
-gemini_api_key = "AIzaSyDJh_yYbR-2LzxMvyhM03h90qXHdooGTN8"
 genai.configure(api_key=gemini_api_key)
 
 def get_plan(duration=7, preferred_activities=["diving", "snorkelling", "kayaking", "sea bathing", "boat rides"], description="I want to do some water activities around downsouth area"):
@@ -201,8 +200,8 @@ def get_plan1(duration=7, preferred_activities=["diving", "snorkelling", "kayaki
     - Activities must be chosen from: ['Fishing', 'Photography Tour', 'Meditation Retreat', 'Yoga', 'Cycling', 'Kayaking', 'Temple Visit', 'Cooking Classes', 'Shopping', 'Pilgrimage', 'Beach Relaxation', 'Tea Plantation Tour', 'Scuba Diving', 'Snorkeling', 'Bird Watching', 'Cultural Tour', 'Hiking', 'Wildlife Safari', 'Whale Watching', 'Surfing']
     - Price should be taken from one of ['low', 'medium', 'high']
     - Props should include 'type' (based on the nature of the activity).
-    - The output should have breakfast, lunch, and dinner for each day.
-    
+    - The output should have breakfast, lunch, and dinner for each day, follow the structure in the example output below. Strictly adhere to the output example.
+
     Please note that the output format must be a JSON string.
     Example output:
     [
@@ -239,7 +238,7 @@ def get_plan1(duration=7, preferred_activities=["diving", "snorkelling", "kayaki
     }},
     {{
       "type": "destination",
-      "time": "afternoon",
+      "time": "evening",
       "district": "Galle",
       "activities": "Kayaking",
       "price": "low",
