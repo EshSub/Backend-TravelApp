@@ -6,6 +6,7 @@ from .models import Conversation, Message
 from .serializers import ConversationSerializer, MessageSerializer
 from gemini.gemini import *
 from django.forms.models import model_to_dict
+from cms.models import Place
 
 class ConversationViewSet(viewsets.ModelViewSet):
     queryset = Conversation.objects.all()
@@ -40,14 +41,20 @@ class MessageViewSet(viewsets.ModelViewSet):
         # Get the conversation ID from the newly created message
         conversation_id = serializer.validated_data['conversation'].id  # Corrected field reference
         current_message = serializer.validated_data['message']
+
+        place_id = request.data.get('place_id', None)
+        # print("place_id", place_id)
+
         messages = Message.objects.filter(conversation_id=conversation_id).order_by('-date', '-time')[:5]
         # message_history = messages.values('message')
         message_history = self.create_conversation_json(messages)
 
         conversation = Conversation.objects.get(id=conversation_id)  # Corrected field reference
-        print("conversation", conversation)
-
-        ai_response = chat_ai_response1(message_history)
+        # print("conversation", conversation)
+        place = Place.objects.get(place_id=place_id)
+        # print("place", place)
+        ai_response = chat_ai_response1(message_history, place)
+        # print("ai_response", ai_response)
 
         res_message = Message.objects.create(
             conversation_id=conversation.id,  # Corrected field reference  

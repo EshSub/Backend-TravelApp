@@ -301,7 +301,7 @@ def chat_ai_response(history):
     response = chat_session.send_message(history)
     return response.text
 
-def chat_ai_response1(history):
+def chat_ai_response1(history, place):
     if not history:
         return "No message received."
     
@@ -320,15 +320,16 @@ def chat_ai_response1(history):
             generation_config=generation_config,
         )
 
+        # print("place", place)
         chat_session = model.start_chat()
-        response = chat_session.send_message(f"Give the answer to the first question: {history[0]}, If possible try to get context from other questions and answers in this list {history}. Only give the answer to the first question, nothing else.")
+        response = chat_session.send_message(f"This question is mostly based on this place: {place}. Give the answer to the first question: {history[0]}, If possible try to get context from other questions and answers in this list {history}. Only give the answer to the first question, nothing else.")
         return response.text
     except Exception as e:
         print("An error occurred:", e)
         return "An error occurred while generating the response."
 
 if __name__ == "__main__":
-    plans, status = get_plan1()
-    print(plans, status)
-    # print(chat_ai_response(["Hello", "How are you?"]))
+    # plans, status = get_plan1()
+    # print(plans, status)
+    print(chat_ai_response1(["How to go there?", "How are you?"],"Kandy" ))
     # print(chat_ai_response1(["Hello", "How are you?"]))
