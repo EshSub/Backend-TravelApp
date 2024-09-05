@@ -322,7 +322,7 @@ def chat_ai_response1(history, place):
 
         # print("place", place)
         chat_session = model.start_chat()
-        response = chat_session.send_message(f"This question is mostly based on this place: {place}. Give the answer to the first question: {history[0]}, If possible try to get context from other questions and answers in this list {history}. Only give the answer to the first question, nothing else.")
+        response = chat_session.send_message(f"This question is mostly based on this place: {place}. Give the answer to the first question: {history[0]}, If possible try to get context from other questions and answers in this list {history}. Only give the answer to the first question, nothing else. If the context if remaining questions does not help, just give a general answer to the first question.")
         return response.text
     except Exception as e:
         print("An error occurred:", e)
