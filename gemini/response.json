@@ -12,11 +12,21 @@
         },
         {
             "type": "restaurant",
-            "time": "morning",
+            "time": "breakfast",
             "district": "Jaffna",
             "price": "medium",
             "props": {
                 "food": "breakfast",
+                "type": "traditional"
+            }
+        },
+        {
+            "type": "restaurant",
+            "time": "lunch",
+            "district": "Jaffna",
+            "price": "medium",
+            "props": {
+                "food": "lunch",
                 "type": "traditional"
             }
         },
@@ -32,11 +42,11 @@
         },
         {
             "type": "restaurant",
-            "time": "evening",
+            "time": "dinner",
             "district": "Jaffna",
             "price": "medium",
             "props": {
-                "food": "lunch",
+                "food": "dinner",
                 "type": "traditional"
             }
         },
@@ -44,108 +54,6 @@
             "type": "accommodation",
             "time": "night",
             "district": "Jaffna",
-            "price": "medium",
-            "props": {
-                "type": "hotel"
-            }
-        }
-    ],
-    [
-        {
-            "type": "destination",
-            "time": "morning",
-            "district": "Anuradhapura",
-            "activities": "Wildlife Safari",
-            "price": "medium",
-            "props": {
-                "type": "adventure"
-            }
-        },
-        {
-            "type": "restaurant",
-            "time": "morning",
-            "district": "Anuradhapura",
-            "price": "medium",
-            "props": {
-                "food": "breakfast",
-                "type": "traditional"
-            }
-        },
-        {
-            "type": "destination",
-            "time": "afternoon",
-            "district": "Anuradhapura",
-            "activities": "Temple Visit",
-            "price": "low",
-            "props": {
-                "type": "cultural"
-            }
-        },
-        {
-            "type": "restaurant",
-            "time": "evening",
-            "district": "Anuradhapura",
-            "price": "medium",
-            "props": {
-                "food": "lunch",
-                "type": "traditional"
-            }
-        },
-        {
-            "type": "accommodation",
-            "time": "night",
-            "district": "Anuradhapura",
-            "price": "medium",
-            "props": {
-                "type": "hotel"
-            }
-        }
-    ],
-    [
-        {
-            "type": "destination",
-            "time": "morning",
-            "district": "Polonnaruwa",
-            "activities": "Wildlife Safari",
-            "price": "medium",
-            "props": {
-                "type": "adventure"
-            }
-        },
-        {
-            "type": "restaurant",
-            "time": "morning",
-            "district": "Polonnaruwa",
-            "price": "medium",
-            "props": {
-                "food": "breakfast",
-                "type": "traditional"
-            }
-        },
-        {
-            "type": "destination",
-            "time": "afternoon",
-            "district": "Polonnaruwa",
-            "activities": "Temple Visit",
-            "price": "low",
-            "props": {
-                "type": "cultural"
-            }
-        },
-        {
-            "type": "restaurant",
-            "time": "evening",
-            "district": "Polonnaruwa",
-            "price": "medium",
-            "props": {
-                "food": "lunch",
-                "type": "traditional"
-            }
-        },
-        {
-            "type": "accommodation",
-            "time": "night",
-            "district": "Polonnaruwa",
             "price": "medium",
             "props": {
                 "type": "hotel"
@@ -157,7 +65,7 @@
             "type": "destination",
             "time": "morning",
             "district": "Trincomalee",
-            "activities": "Wildlife Safari",
+            "activities": "Whale Watching",
             "price": "medium",
             "props": {
                 "type": "adventure"
@@ -165,11 +73,21 @@
         },
         {
             "type": "restaurant",
-            "time": "morning",
+            "time": "breakfast",
             "district": "Trincomalee",
             "price": "medium",
             "props": {
                 "food": "breakfast",
+                "type": "traditional"
+            }
+        },
+        {
+            "type": "restaurant",
+            "time": "lunch",
+            "district": "Trincomalee",
+            "price": "medium",
+            "props": {
+                "food": "lunch",
                 "type": "traditional"
             }
         },
@@ -185,11 +103,11 @@
         },
         {
             "type": "restaurant",
-            "time": "evening",
+            "time": "dinner",
             "district": "Trincomalee",
             "price": "medium",
             "props": {
-                "food": "lunch",
+                "food": "dinner",
                 "type": "traditional"
             }
         },
@@ -197,6 +115,128 @@
             "type": "accommodation",
             "time": "night",
             "district": "Trincomalee",
+            "price": "medium",
+            "props": {
+                "type": "hotel"
+            }
+        }
+    ],
+    [
+        {
+            "type": "destination",
+            "time": "morning",
+            "district": "Anuradhapura",
+            "activities": "Wildlife Safari",
+            "price": "medium",
+            "props": {
+                "type": "adventure"
+            }
+        },
+        {
+            "type": "restaurant",
+            "time": "breakfast",
+            "district": "Anuradhapura",
+            "price": "medium",
+            "props": {
+                "food": "breakfast",
+                "type": "traditional"
+            }
+        },
+        {
+            "type": "restaurant",
+            "time": "lunch",
+            "district": "Anuradhapura",
+            "price": "medium",
+            "props": {
+                "food": "lunch",
+                "type": "traditional"
+            }
+        },
+        {
+            "type": "destination",
+            "time": "afternoon",
+            "district": "Anuradhapura",
+            "activities": "Bird Watching",
+            "price": "low",
+            "props": {
+                "type": "nature"
+            }
+        },
+        {
+            "type": "restaurant",
+            "time": "dinner",
+            "district": "Anuradhapura",
+            "price": "medium",
+            "props": {
+                "food": "dinner",
+                "type": "traditional"
+            }
+        },
+        {
+            "type": "accommodation",
+            "time": "night",
+            "district": "Anuradhapura",
+            "price": "medium",
+            "props": {
+                "type": "hotel"
+            }
+        }
+    ],
+    [
+        {
+            "type": "destination",
+            "time": "morning",
+            "district": "Polonnaruwa",
+            "activities": "Wildlife Safari",
+            "price": "medium",
+            "props": {
+                "type": "adventure"
+            }
+        },
+        {
+            "type": "restaurant",
+            "time": "breakfast",
+            "district": "Polonnaruwa",
+            "price": "medium",
+            "props": {
+                "food": "breakfast",
+                "type": "traditional"
+            }
+        },
+        {
+            "type": "restaurant",
+            "time": "lunch",
+            "district": "Polonnaruwa",
+            "price": "medium",
+            "props": {
+                "food": "lunch",
+                "type": "traditional"
+            }
+        },
+        {
+            "type": "destination",
+            "time": "afternoon",
+            "district": "Polonnaruwa",
+            "activities": "Bird Watching",
+            "price": "low",
+            "props": {
+                "type": "nature"
+            }
+        },
+        {
+            "type": "restaurant",
+            "time": "dinner",
+            "district": "Polonnaruwa",
+            "price": "medium",
+            "props": {
+                "food": "dinner",
+                "type": "traditional"
+            }
+        },
+        {
+            "type": "accommodation",
+            "time": "night",
+            "district": "Polonnaruwa",
             "price": "medium",
             "props": {
                 "type": "hotel"
@@ -216,7 +256,7 @@
         },
         {
             "type": "restaurant",
-            "time": "morning",
+            "time": "breakfast",
             "district": "Kandy",
             "price": "medium",
             "props": {
@@ -225,22 +265,32 @@
             }
         },
         {
-            "type": "destination",
-            "time": "afternoon",
-            "district": "Kandy",
-            "activities": "Temple Visit",
-            "price": "low",
-            "props": {
-                "type": "cultural"
-            }
-        },
-        {
             "type": "restaurant",
-            "time": "evening",
+            "time": "lunch",
             "district": "Kandy",
             "price": "medium",
             "props": {
                 "food": "lunch",
+                "type": "traditional"
+            }
+        },
+        {
+            "type": "destination",
+            "time": "afternoon",
+            "district": "Kandy",
+            "activities": "Bird Watching",
+            "price": "low",
+            "props": {
+                "type": "nature"
+            }
+        },
+        {
+            "type": "restaurant",
+            "time": "dinner",
+            "district": "Kandy",
+            "price": "medium",
+            "props": {
+                "food": "dinner",
                 "type": "traditional"
             }
         },

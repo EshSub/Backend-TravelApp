@@ -15,9 +15,10 @@ import google.generativeai as genai
 
 env = environ.Env()
 
-environ.Env.read_env()
-gemini_api_key = env("GEMINI_API_KEY")
+# environ.Env.read_env()
+# gemini_api_key = env("GEMINI_API_KEY")
 
+gemini_api_key = "AIzaSyDJh_yYbR-2LzxMvyhM03h90qXHdooGTN8"
 genai.configure(api_key=gemini_api_key)
 
 def get_plan(duration=7, preferred_activities=["diving", "snorkelling", "kayaking", "sea bathing", "boat rides"], description="I want to do some water activities around downsouth area"):
@@ -200,13 +201,14 @@ def get_plan1(duration=7, preferred_activities=["diving", "snorkelling", "kayaki
     - Activities must be chosen from: ['Fishing', 'Photography Tour', 'Meditation Retreat', 'Yoga', 'Cycling', 'Kayaking', 'Temple Visit', 'Cooking Classes', 'Shopping', 'Pilgrimage', 'Beach Relaxation', 'Tea Plantation Tour', 'Scuba Diving', 'Snorkeling', 'Bird Watching', 'Cultural Tour', 'Hiking', 'Wildlife Safari', 'Whale Watching', 'Surfing']
     - Price should be taken from one of ['low', 'medium', 'high']
     - Props should include 'type' (based on the nature of the activity).
+    - The output should have breakfast, lunch, and dinner for each day.
     
     Please note that the output format must be a JSON string.
     Example output:
     [
     {{
       "type": "restaurant",
-      "time": "morning",
+      "time": "breakfast",
       "district": "Galle",
       "price": "medium",
       "props": {{
@@ -227,7 +229,7 @@ def get_plan1(duration=7, preferred_activities=["diving", "snorkelling", "kayaki
     }},
     {{
       "type": "restaurant",
-      "time": "evening",
+      "time": "lunch",
       "district": "Galle",
       "price": "medium",
       "props": {{
@@ -243,6 +245,15 @@ def get_plan1(duration=7, preferred_activities=["diving", "snorkelling", "kayaki
       "price": "low",
       "props": {{
         "type": "adventure",
+      }}
+    }},
+    {{
+      "type": "restaurant",
+      "time": "dinner",
+      "district": "Galle",
+      "price": "medium",
+      "props": {{
+        "type": "hotel",
       }}
     }},
     {{
@@ -329,7 +340,7 @@ def chat_ai_response1(history, place):
         return "An error occurred while generating the response."
 
 if __name__ == "__main__":
-    # plans, status = get_plan1()
-    # print(plans, status)
-    print(chat_ai_response1(["How to go there?", "How are you?"],"Kandy" ))
+    plans, status = get_plan1()
+    print(plans, status)
+    # print(chat_ai_response1(["How to go there?", "How are you?"],"Kandy" ))
     # print(chat_ai_response1(["Hello", "How are you?"]))
