@@ -54,6 +54,7 @@ class MessageViewSet(viewsets.ModelViewSet):
             date=datetime.now().date(),  # Current date
             time=datetime.now().time(),  # Current time
             message=ai_response,
+            guide_id=1
         )
 
         return Response({"res_message": MessageSerializer(res_message).data, 'message': MessageSerializer(message).data}, status=status.HTTP_201_CREATED)
