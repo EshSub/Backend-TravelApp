@@ -5,6 +5,7 @@ from datetime import datetime
 from .models import Conversation, Message
 from .serializers import ConversationSerializer, MessageSerializer
 from gemini.gemini import *
+from django.forms.models import model_to_dict
 
 class ConversationViewSet(viewsets.ModelViewSet):
     queryset = Conversation.objects.all()
@@ -29,12 +30,12 @@ class MessageViewSet(viewsets.ModelViewSet):
     filterset_fields = ["conversation"]
 
     def create(self, request, *args, **kwargs):
-        # print("request.data", request.data)
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
+        # message = serializer.validated_data
         # Save the new message
-        self.perform_create(serializer)
+        message = serializer.save()
         
         # Get the conversation ID from the newly created message
         conversation_id = serializer.validated_data['conversation'].id  # Corrected field reference
@@ -44,24 +45,18 @@ class MessageViewSet(viewsets.ModelViewSet):
         message_history = self.create_conversation_json(messages)
 
         conversation = Conversation.objects.get(id=conversation_id)  # Corrected field reference
-        # print("conversation", conversation)
+        print("conversation", conversation)
 
-        if conversation.isAI:
-            # print("AI conversation")
-            ai_response = chat_ai_response1(message_history)
+        ai_response = chat_ai_response1(message_history)
 
-            Message.objects.create(
-                conversation_id=conversation.id,  # Corrected field reference  
-                date=datetime.now().date(),  # Current date
-                time=datetime.now().time(),  # Current time
-                message=ai_response,
-            )
-        
-            # print("AI response", ai_response)
-            return Response(ai_response, status=status.HTTP_201_CREATED)
-        else:
-            # print("User conversation")
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        res_message = Message.objects.create(
+            conversation_id=conversation.id,  # Corrected field reference  
+            date=datetime.now().date(),  # Current date
+            time=datetime.now().time(),  # Current time
+            message=ai_response,
+        )
+
+        return Response({"res_message": model_to_dict(res_message), 'message': model_to_dict(message)}, status=status.HTTP_201_CREATED)
 
     def create_conversation_json(self, messages):
         conversation_history = []
